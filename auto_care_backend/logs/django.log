@@ -1,0 +1,350 @@
+[INFO] 2025-10-06 00:03:08,976 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:05:53,644 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:05:55,508 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:06:14,165 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:06:15,483 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:06:39,132 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:06:40,337 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:06:49,941 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:06:51,477 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:07:11,039 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:08:23,873 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:08:25,360 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:10:45,232 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:10:46,593 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:10:54,780 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:11:57,406 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:11:59,119 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:12:01,885 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:12:03,590 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:12:17,709 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:12:19,018 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:12:38,974 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:12:40,525 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:12:43,582 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:12:44,820 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:13:26,363 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:18:09,302 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:18:11,184 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:18:18,833 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:19:45,351 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:19:47,086 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:19:53,365 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:19:54,994 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:19:58,258 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-06 00:19:59,457 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:20:05,239 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 00:23:09,584 django.utils.autoreload Watching for file changes with StatReloader
+[WARNING] 2025-10-06 00:23:30,248 django.request Not Found: /
+[WARNING] 2025-10-06 00:23:30,250 django.server "GET / HTTP/1.1" 404 2472
+[WARNING] 2025-10-06 00:23:31,217 django.request Not Found: /favicon.ico
+[WARNING] 2025-10-06 00:23:31,220 django.server "GET /favicon.ico HTTP/1.1" 404 2523
+[INFO] 2025-10-06 00:24:06,859 django.server "GET /admin HTTP/1.1" 301 0
+[INFO] 2025-10-06 00:24:06,892 django.server "GET /admin/ HTTP/1.1" 302 0
+[INFO] 2025-10-06 00:24:07,055 django.server "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4177
+[INFO] 2025-10-06 00:24:07,510 django.server "GET /static/admin/css/base.css HTTP/1.1" 200 22120
+[INFO] 2025-10-06 00:24:07,557 django.server "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+[INFO] 2025-10-06 00:24:07,592 django.server "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2808
+[INFO] 2025-10-06 00:24:07,604 django.server "GET /static/admin/css/login.css HTTP/1.1" 200 951
+[INFO] 2025-10-06 00:24:07,612 django.server "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+[INFO] 2025-10-06 00:24:07,616 django.server "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+[INFO] 2025-10-06 00:24:07,624 django.server "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+[INFO] 2025-10-06 00:24:21,033 django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[INFO] 2025-10-06 00:24:21,135 django.server "GET /admin/ HTTP/1.1" 200 9972
+[INFO] 2025-10-06 00:24:21,195 django.server "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+[INFO] 2025-10-06 00:24:21,238 django.server "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+[INFO] 2025-10-06 00:24:21,238 django.server "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+[INFO] 2025-10-06 21:39:47,499 django.utils.autoreload Watching for file changes with StatReloader
+[WARNING] 2025-10-06 21:39:51,730 django.request Not Found: /
+[WARNING] 2025-10-06 21:39:51,735 django.server "GET / HTTP/1.1" 404 2472
+[WARNING] 2025-10-06 21:39:53,125 django.request Not Found: /favicon.ico
+[WARNING] 2025-10-06 21:39:53,127 django.server "GET /favicon.ico HTTP/1.1" 404 2523
+[INFO] 2025-10-06 21:39:57,729 django.server "GET /admin HTTP/1.1" 301 0
+[INFO] 2025-10-06 21:39:57,939 django.server "GET /admin/ HTTP/1.1" 200 9972
+[INFO] 2025-10-06 21:39:58,414 django.server "GET /static/admin/css/base.css HTTP/1.1" 200 22120
+[INFO] 2025-10-06 21:39:58,441 django.server "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2808
+[INFO] 2025-10-06 21:39:58,444 django.server "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+[INFO] 2025-10-06 21:39:58,448 django.server "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+[INFO] 2025-10-06 21:39:58,460 django.server "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+[INFO] 2025-10-06 21:39:58,465 django.server "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+[INFO] 2025-10-06 21:39:58,467 django.server "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+[INFO] 2025-10-06 21:39:58,484 django.server "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+[INFO] 2025-10-06 21:39:58,491 django.server "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+[INFO] 2025-10-06 21:40:04,358 django.server "GET /admin/accounts/user/add/ HTTP/1.1" 200 14563
+[INFO] 2025-10-06 21:40:04,430 django.server "GET /static/admin/css/forms.css HTTP/1.1" 200 8525
+[INFO] 2025-10-06 21:40:04,465 django.server "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+[INFO] 2025-10-06 21:40:04,483 django.server "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+[INFO] 2025-10-06 21:40:04,501 django.server "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+[INFO] 2025-10-06 21:40:04,511 django.server "GET /static/admin/css/widgets.css HTTP/1.1" 200 11991
+[INFO] 2025-10-06 21:40:04,512 django.server "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+[INFO] 2025-10-06 21:40:04,515 django.server "GET /static/admin/css/unusable_password_field.css HTTP/1.1" 200 663
+[INFO] 2025-10-06 21:40:04,516 django.server "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+[INFO] 2025-10-06 21:40:04,533 django.server "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+[INFO] 2025-10-06 21:40:04,538 django.server "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+[INFO] 2025-10-06 21:40:04,559 django.server "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+[INFO] 2025-10-06 21:40:04,591 django.server "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+[INFO] 2025-10-06 21:40:04,600 django.server "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+[INFO] 2025-10-06 21:40:04,614 django.server "GET /static/admin/js/unusable_password_field.js HTTP/1.1" 200 1480
+[INFO] 2025-10-06 21:40:04,661 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2025-10-06 21:40:11,906 django.server "GET /admin/accounts/user/ HTTP/1.1" 200 13882
+[INFO] 2025-10-06 21:40:11,940 django.server "GET /static/admin/css/changelists.css HTTP/1.1" 200 6878
+[INFO] 2025-10-06 21:40:11,961 django.server "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+[INFO] 2025-10-06 21:40:11,965 django.server "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+[INFO] 2025-10-06 21:40:11,979 django.server "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+[INFO] 2025-10-06 21:40:12,092 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2025-10-06 21:40:12,254 django.server "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+[INFO] 2025-10-06 21:40:12,259 django.server "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+[INFO] 2025-10-06 21:40:14,378 django.server "GET /admin/accounts/user/?_facets=True HTTP/1.1" 200 14205
+[INFO] 2025-10-06 21:40:14,601 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2025-10-06 21:40:14,736 django.server "GET /static/admin/img/icon-hidelink.svg HTTP/1.1" 200 784
+[INFO] 2025-10-06 21:40:19,138 django.server "GET /admin/accounts/user/1/change/?_changelist_filters=_facets%3DTrue HTTP/1.1" 200 23463
+[INFO] 2025-10-06 21:40:19,198 django.server "GET /static/admin/js/SelectBox.js HTTP/1.1" 200 4530
+[INFO] 2025-10-06 21:40:19,198 django.server "GET /static/admin/js/SelectFilter2.js HTTP/1.1" 200 15845
+[INFO] 2025-10-06 21:40:19,340 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2025-10-06 21:40:19,828 django.server "GET /static/admin/img/selector-icons.svg HTTP/1.1" 200 3291
+[INFO] 2025-10-06 21:41:14,056 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-06 21:41:19,200 apps.accounts.api.views OTP request received from IP: 127.0.0.1
+[INFO] 2025-10-06 21:41:19,372 apps.accounts.api.views New user created: 8999513014
+[INFO] 2025-10-06 21:41:19,377 apps.accounts.api.views OTP generated for 8999513014: 717652
+[INFO] 2025-10-06 21:41:19,380 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[WARNING] 2025-10-06 21:42:05,376 apps.accounts.api.views No valid OTP found for 9112666031
+[WARNING] 2025-10-06 21:42:05,378 django.request Bad Request: /api/accounts/verify-otp/
+[WARNING] 2025-10-06 21:42:05,379 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 400 61
+[INFO] 2025-10-06 21:42:17,547 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-06 21:42:17,549 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[WARNING] 2025-10-06 21:44:15,559 django.request Not Found: /api/profile/
+[WARNING] 2025-10-06 21:44:15,562 django.server "GET /api/profile/ HTTP/1.1" 404 2526
+[WARNING] 2025-10-06 21:44:26,083 django.request Not Found: /api/profile/
+[WARNING] 2025-10-06 21:44:26,084 django.server "GET /api/profile/ HTTP/1.1" 404 2526
+[WARNING] 2025-10-06 21:44:39,680 django.request Not Found: /api/profile/
+[WARNING] 2025-10-06 21:44:39,702 django.server "GET /api/profile/ HTTP/1.1" 404 2526
+[WARNING] 2025-10-06 21:45:08,475 django.request Not Found: /api/profile/8999513014
+[WARNING] 2025-10-06 21:45:08,476 django.server "GET /api/profile/8999513014 HTTP/1.1" 404 2556
+[WARNING] 2025-10-06 21:45:14,759 django.request Not Found: /api/profile/8999513014
+[WARNING] 2025-10-06 21:45:14,760 django.server "GET /api/profile/8999513014 HTTP/1.1" 404 2556
+[WARNING] 2025-10-06 21:46:54,222 django.request Not Found: /api/profile/8999513014
+[WARNING] 2025-10-06 21:46:54,223 django.server "GET /api/profile/8999513014 HTTP/1.1" 404 2556
+[WARNING] 2025-10-06 21:47:12,873 django.request Not Found: /api/profile/8999513014/
+[WARNING] 2025-10-06 21:47:12,873 django.server "GET /api/profile/8999513014/ HTTP/1.1" 404 2559
+[WARNING] 2025-10-06 21:47:34,869 django.request Not Found: /api/accounts/profile/8999513014/
+[WARNING] 2025-10-06 21:47:34,871 django.server "GET /api/accounts/profile/8999513014/ HTTP/1.1" 404 3530
+[WARNING] 2025-10-06 21:47:38,610 django.request Not Found: /api/accounts/profile/8999513014
+[WARNING] 2025-10-06 21:47:38,611 django.server "GET /api/accounts/profile/8999513014 HTTP/1.1" 404 3527
+[WARNING] 2025-10-06 21:47:44,155 django.request Unauthorized: /api/accounts/profile/
+[WARNING] 2025-10-06 21:47:44,156 django.server "GET /api/accounts/profile/ HTTP/1.1" 401 107
+[WARNING] 2025-10-06 21:48:33,660 django.request Unauthorized: /api/accounts/profile/
+[WARNING] 2025-10-06 21:48:33,662 django.server "GET /api/accounts/profile/ HTTP/1.1" 401 107
+[WARNING] 2025-10-06 21:48:41,020 django.request Not Found: /api/accounts/profile/8999513014
+[WARNING] 2025-10-06 21:48:41,021 django.server "GET /api/accounts/profile/8999513014 HTTP/1.1" 404 3527
+[WARNING] 2025-10-06 21:48:42,555 django.request Not Found: /api/accounts/profile/8999513014
+[WARNING] 2025-10-06 21:48:42,556 django.server "GET /api/accounts/profile/8999513014 HTTP/1.1" 404 3527
+[WARNING] 2025-10-06 21:48:56,800 django.request Not Found: /api/accounts/profile/8999513014
+[WARNING] 2025-10-06 21:48:56,800 django.server "GET /api/accounts/profile/8999513014 HTTP/1.1" 404 3527
+[WARNING] 2025-10-06 23:43:30,553 apps.accounts.api.views No valid OTP found for 8999513014
+[WARNING] 2025-10-06 23:43:30,574 django.request Bad Request: /api/accounts/verify-otp/
+[WARNING] 2025-10-06 23:43:30,578 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 400 61
+[INFO] 2025-10-06 23:43:35,895 apps.accounts.api.views OTP request received from IP: 127.0.0.1
+[INFO] 2025-10-06 23:43:36,032 apps.accounts.api.views OTP generated for 8999513014: 585688
+[INFO] 2025-10-06 23:43:36,039 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-06 23:43:56,758 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-06 23:43:56,760 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[WARNING] 2025-10-06 23:44:29,937 django.request Unauthorized: /api/accounts/profile/
+[WARNING] 2025-10-06 23:44:29,938 django.server "GET /api/accounts/profile/ HTTP/1.1" 401 107
+[WARNING] 2025-10-06 23:44:55,145 django.request Unauthorized: /api/accounts/profile/
+[WARNING] 2025-10-06 23:44:55,153 django.server "GET /api/accounts/profile/ HTTP/1.1" 401 107
+[INFO] 2025-10-06 23:45:13,075 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-06 23:45:13,117 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 60
+[INFO] 2025-10-06 23:47:00,879 apps.accounts.api.views Profile updated for 8999513014
+[INFO] 2025-10-06 23:47:00,881 django.server "PUT /api/accounts/profile/ HTTP/1.1" 200 82
+[INFO] 2025-10-06 23:48:41,576 apps.bookings.api.views Booking created: 1 for user 8999513014
+[INFO] 2025-10-06 23:48:41,627 django.server "POST /api/bookings/ HTTP/1.1" 201 175
+[INFO] 2025-10-06 23:50:04,981 apps.bookings.api.views Booking created: 2 for user 8999513014
+[INFO] 2025-10-06 23:50:04,983 django.server "POST /api/bookings/ HTTP/1.1" 201 150
+[INFO] 2025-10-06 23:50:18,089 apps.bookings.api.views Bookings listed for user 8999513014: 2 bookings
+[INFO] 2025-10-06 23:50:18,094 django.server "GET /api/bookings/ HTTP/1.1" 200 328
+[INFO] 2025-10-06 23:50:32,774 apps.bookings.api.views Bookings listed for user 8999513014: 2 bookings
+[INFO] 2025-10-06 23:50:32,781 django.server "GET /api/bookings/ HTTP/1.1" 200 328
+[INFO] 2025-10-06 23:51:15,184 django.server "GET /admin/ HTTP/1.1" 302 0
+[INFO] 2025-10-06 23:51:15,284 django.server "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4177
+[WARNING] 2025-10-06 23:51:21,772 django.security.csrf Forbidden (CSRF token missing.): /admin/
+[WARNING] 2025-10-06 23:51:21,774 django.server "POST /admin/ HTTP/1.1" 403 2491
+[INFO] 2025-10-07 00:07:46,214 apps.bookings.api.views Bookings listed for user 8999513014: 2 bookings
+[INFO] 2025-10-07 00:07:46,225 django.server "GET /api/bookings/ HTTP/1.1" 200 328
+[INFO] 2025-10-08 21:36:55,345 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-08 21:39:42,405 apps.accounts.api.views OTP request received from IP: 127.0.0.1
+[INFO] 2025-10-08 21:39:42,677 apps.accounts.api.views OTP generated for 9168238418: 528183
+[INFO] 2025-10-08 21:39:42,690 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[WARNING] 2025-10-08 21:40:14,386 apps.accounts.api.views Invalid OTP attempt for 9168238418. Remaining: 2
+[WARNING] 2025-10-08 21:40:14,426 django.request Bad Request: /api/accounts/verify-otp/
+[WARNING] 2025-10-08 21:40:14,452 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 400 48
+[INFO] 2025-10-08 21:40:25,900 apps.accounts.api.views Successful login for 9168238418 (New user: False)
+[INFO] 2025-10-08 21:40:25,901 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-08 22:26:22,252 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-08 22:44:21,937 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 00:31:44,582 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 09:09:32,579 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 09:24:08,988 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 09:34:28,743 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 09:45:56,500 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 09:48:23,500 django.utils.autoreload C:\Users\2001k\OneDrive\Desktop\Auto_Care\auto_care_backend\auto_care\settings.py changed, reloading.
+[INFO] 2025-10-09 09:49:02,715 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 09:49:44,957 django.server "GET /admin/ HTTP/1.1" 200 9972
+[INFO] 2025-10-09 09:49:45,466 django.server "GET /static/admin/css/base.css HTTP/1.1" 200 22120
+[INFO] 2025-10-09 09:49:45,485 django.server "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2808
+[INFO] 2025-10-09 09:49:45,527 django.server "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+[INFO] 2025-10-09 09:49:45,528 django.server "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+[INFO] 2025-10-09 09:49:45,533 django.server "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+[INFO] 2025-10-09 09:49:45,539 django.server "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+[INFO] 2025-10-09 09:49:45,547 django.server "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+[INFO] 2025-10-09 09:49:45,565 django.server "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+[INFO] 2025-10-09 09:49:45,565 django.server "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+[WARNING] 2025-10-09 09:49:45,734 django.request Not Found: /favicon.ico
+[WARNING] 2025-10-09 09:49:45,735 django.server "GET /favicon.ico HTTP/1.1" 404 2523
+[INFO] 2025-10-09 10:04:53,039 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 10:06:53,458 django.server "GET /admin/ HTTP/1.1" 200 9972
+[INFO] 2025-10-09 10:10:29,107 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 10:15:03,676 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 10:16:13,294 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-09 10:16:13,319 apps.accounts.api.views OTP request received from IP: 10.240.95.214
+[INFO] 2025-10-09 10:16:13,557 apps.accounts.api.views New user created: 9112666031
+[INFO] 2025-10-09 10:16:13,568 apps.accounts.api.views OTP generated for 9112666031: 080165
+[INFO] 2025-10-09 10:16:13,575 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-09 10:16:32,974 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-09 10:16:33,263 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-09 10:16:33,265 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-09 10:18:10,502 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-09 10:18:10,606 apps.bookings.api.views Booking created: 3 for user 9112666031
+[INFO] 2025-10-09 10:18:10,620 django.server "POST /api/bookings/ HTTP/1.1" 201 157
+[INFO] 2025-10-09 10:39:01,030 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-09 10:40:03,496 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-09 10:40:03,535 apps.accounts.api.views OTP request received from IP: 10.240.95.214
+[INFO] 2025-10-09 10:40:03,723 apps.accounts.api.views OTP generated for 9168238418: 985665
+[INFO] 2025-10-09 10:40:03,725 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-09 10:40:21,588 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-09 10:40:21,877 apps.accounts.api.views Successful login for 9168238418 (New user: False)
+[INFO] 2025-10-09 10:40:21,880 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-09 10:43:28,830 django.server "GET /admin/ HTTP/1.1" 200 9972
+[WARNING] 2025-10-09 10:43:29,259 django.request Not Found: /favicon.ico
+[WARNING] 2025-10-09 10:43:29,260 django.server "GET /favicon.ico HTTP/1.1" 404 2523
+[INFO] 2025-10-10 22:39:39,907 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-10 22:45:37,446 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-10 22:48:47,103 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-10 22:49:58,021 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-10 22:49:58,121 apps.accounts.api.views OTP request received from IP: 10.157.72.214
+[INFO] 2025-10-10 22:49:58,601 apps.accounts.api.views OTP generated for 9168238418: 878976
+[INFO] 2025-10-10 22:49:58,632 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-10 22:50:20,130 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-10 22:50:20,471 apps.accounts.api.views Successful login for 9168238418 (New user: False)
+[INFO] 2025-10-10 22:50:20,472 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-10 22:50:41,069 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-10 22:50:41,194 apps.bookings.api.views Booking created: 4 for user 9168238418
+[INFO] 2025-10-10 22:50:41,234 django.server "POST /api/bookings/ HTTP/1.1" 201 148
+[INFO] 2025-10-11 14:50:05,903 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-11 14:50:22,003 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 14:50:22,071 apps.accounts.api.views OTP request received from IP: 10.157.72.214
+[INFO] 2025-10-11 14:50:22,318 apps.accounts.api.views OTP generated for 9112666031: 131020
+[INFO] 2025-10-11 14:50:22,322 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-11 14:50:31,528 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 14:50:31,931 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-11 14:50:31,937 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-11 16:43:06,048 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-11 16:44:18,668 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 16:44:18,738 apps.accounts.api.views OTP request received from IP: 10.157.72.214
+[INFO] 2025-10-11 16:44:18,910 apps.accounts.api.views OTP generated for 9112666031: 148612
+[INFO] 2025-10-11 16:44:18,916 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-11 16:44:29,162 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 16:44:29,567 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-11 16:44:29,574 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-11 16:44:36,598 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 16:44:36,895 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-11 16:46:45,473 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[WARNING] 2025-10-11 16:46:46,406 apps.bookings.api.views Booking creation failed for 9112666031: {'date': [ErrorDetail(string='Date has wrong format. Use one of these formats instead: YYYY-MM-DD.', code='invalid')]}
+[WARNING] 2025-10-11 16:46:46,457 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-11 16:46:46,459 django.server "POST /api/bookings/ HTTP/1.1" 400 81
+[WARNING] 2025-10-11 16:47:18,562 apps.bookings.api.views Booking creation failed for 9112666031: {'date': [ErrorDetail(string='Date has wrong format. Use one of these formats instead: YYYY-MM-DD.', code='invalid')]}
+[WARNING] 2025-10-11 16:47:18,566 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-11 16:47:18,567 django.server "POST /api/bookings/ HTTP/1.1" 400 81
+[INFO] 2025-10-11 16:47:55,166 django.server "OPTIONS /api/auth/logout/ HTTP/1.1" 200 0
+[WARNING] 2025-10-11 16:47:55,219 django.request Not Found: /api/auth/logout/
+[WARNING] 2025-10-11 16:47:55,220 django.server "POST /api/auth/logout/ HTTP/1.1" 404 2700
+[INFO] 2025-10-11 18:03:44,605 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-11 18:10:03,603 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-11 18:10:47,578 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 18:10:47,614 apps.accounts.api.views OTP request received from IP: 10.157.72.214
+[INFO] 2025-10-11 18:10:47,826 apps.accounts.api.views New user created: 8999513014
+[INFO] 2025-10-11 18:10:47,842 apps.accounts.api.views OTP generated for 8999513014: 153640
+[INFO] 2025-10-11 18:10:47,869 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-11 18:10:59,431 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 18:10:59,601 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-11 18:10:59,603 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-11 18:11:06,007 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 18:11:06,113 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-11 18:11:31,564 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 18:11:31,650 apps.bookings.api.views Booking creation attempt by 8999513014: {'vehicle_type': 'car', 'date': ['2025-10-11', '00:00:00.000'], 'time_slot': '06:00 AM', 'notes': 'deep washing', 'latitude': 18.5246091, 'longitude': 73.8786239, 'service_address': 'Current Location'}
+[WARNING] 2025-10-11 18:11:31,654 apps.bookings.api.views Booking creation validation failed for 8999513014: {'date': [ErrorDetail(string='Date has wrong format. Use one of these formats instead: YYYY-MM-DD.', code='invalid')], 'latitude': [ErrorDetail(string='Ensure that there are no more than 6 decimal places.', code='max_decimal_places')], 'longitude': [ErrorDetail(string='Ensure that there are no more than 6 decimal places.', code='max_decimal_places')]}
+[WARNING] 2025-10-11 18:11:31,657 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-11 18:11:31,658 django.server "POST /api/bookings/ HTTP/1.1" 400 218
+[INFO] 2025-10-11 18:11:33,151 apps.bookings.api.views Booking creation attempt by 8999513014: {'vehicle_type': 'car', 'date': ['2025-10-11', '00:00:00.000'], 'time_slot': '06:00 AM', 'notes': 'deep washing', 'latitude': 18.5246091, 'longitude': 73.8786239, 'service_address': 'Current Location'}
+[WARNING] 2025-10-11 18:11:33,153 apps.bookings.api.views Booking creation validation failed for 8999513014: {'date': [ErrorDetail(string='Date has wrong format. Use one of these formats instead: YYYY-MM-DD.', code='invalid')], 'latitude': [ErrorDetail(string='Ensure that there are no more than 6 decimal places.', code='max_decimal_places')], 'longitude': [ErrorDetail(string='Ensure that there are no more than 6 decimal places.', code='max_decimal_places')]}
+[WARNING] 2025-10-11 18:11:33,154 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-11 18:11:33,155 django.server "POST /api/bookings/ HTTP/1.1" 400 218
+[INFO] 2025-10-11 18:23:12,884 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-11 18:24:13,149 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 18:24:13,175 apps.accounts.api.views OTP request received from IP: 10.157.72.214
+[INFO] 2025-10-11 18:24:13,376 apps.accounts.api.views OTP generated for 8999513014: 694015
+[INFO] 2025-10-11 18:24:13,383 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-11 18:24:23,515 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 18:24:23,665 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-11 18:24:23,667 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-11 18:24:27,476 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 18:24:27,610 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-11 18:24:57,428 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-11 18:24:57,520 apps.bookings.api.views Booking creation attempt by 8999513014: {'vehicle_type': 'car', 'date': '2025-10-11', 'time_slot': '09:00 PM', 'notes': 'deep cleaning', 'latitude': 18.524609, 'longitude': 73.878624, 'service_address': 'Current Location'}
+[WARNING] 2025-10-11 18:24:57,531 apps.bookings.api.serializers No active service areas defined - allowing all locations
+[WARNING] 2025-10-11 18:24:57,547 apps.bookings.models Booking None created outside service area: 18.524609, 73.878624
+[INFO] 2025-10-11 18:24:57,560 apps.bookings.api.serializers Location-aware booking created: ID 1 at 18.524609, 73.878624 for user 8999513014
+[INFO] 2025-10-11 18:24:57,562 apps.bookings.api.views Location-aware booking created successfully: ID 1 at Current Location (18.524609, 73.878624) for user 8999513014
+[INFO] 2025-10-11 18:24:57,602 django.server "POST /api/bookings/ HTTP/1.1" 201 451
+[INFO] 2025-10-11 23:03:33,517 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-12 10:30:00,068 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-12 13:43:16,306 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-12 14:42:44,330 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-12 15:49:28,930 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-12 15:57:27,544 apps.accounts.api.views OTP request received from IP: 10.157.72.214
+[INFO] 2025-10-12 15:57:28,093 apps.accounts.api.views OTP generated for 8999513014: 632239
+[INFO] 2025-10-12 15:57:28,114 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-12 15:57:47,181 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-12 15:57:47,186 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-12 15:58:03,492 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[WARNING] 2025-10-12 15:59:26,540 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-12 15:59:26,545 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 140
+[WARNING] 2025-10-12 16:00:49,691 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-12 16:00:49,701 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 140
+[WARNING] 2025-10-12 16:01:29,387 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-12 16:01:29,399 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 140
+[WARNING] 2025-10-12 16:01:34,713 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-12 16:01:34,725 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 140
+[WARNING] 2025-10-12 16:01:58,568 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-12 16:01:58,576 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 140
+[WARNING] 2025-10-12 16:02:17,187 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-12 16:02:17,195 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 140
+[INFO] 2025-10-12 16:15:58,726 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-12 16:19:08,201 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-12 16:19:08,254 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 60
+[INFO] 2025-10-12 16:23:43,578 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-12 16:25:50,418 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-12 16:25:51,087 apps.accounts.api.views OTP request received from IP: 10.157.72.214
+[INFO] 2025-10-12 16:25:51,777 apps.accounts.api.views OTP generated for 8999513014: 769823
+[INFO] 2025-10-12 16:25:51,843 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-12 16:26:03,791 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-12 16:26:04,477 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-12 16:26:04,483 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-12 16:26:10,268 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-12 16:26:10,767 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-12 16:26:57,083 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-12 16:26:57,516 apps.bookings.api.views Booking creation attempt by 8999513014: {'vehicle_type': 'car', 'date': '2025-10-12', 'time_slot': '01:00 PM', 'notes': 'deep cleaning', 'latitude': 18.524609, 'longitude': 73.878624, 'service_address': 'Current Location'}
+[WARNING] 2025-10-12 16:26:57,615 apps.bookings.api.serializers No active service areas defined - allowing all locations
+[WARNING] 2025-10-12 16:26:57,656 apps.bookings.models Booking None created outside service area: 18.524609, 73.878624
+[INFO] 2025-10-12 16:26:57,693 apps.bookings.api.serializers Location-aware booking created: ID 2 at 18.524609, 73.878624 for user 8999513014
+[INFO] 2025-10-12 16:26:57,695 apps.bookings.api.views Location-aware booking created successfully: ID 2 at Current Location (18.524609, 73.878624) for user 8999513014
+[INFO] 2025-10-12 16:26:57,832 django.server "POST /api/bookings/ HTTP/1.1" 201 451
