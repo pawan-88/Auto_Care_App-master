@@ -3,7 +3,7 @@ import '../utils/constants.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed; // ✅ made nullable to allow disabled buttons
   final bool isLoading;
   final Color? backgroundColor;
   final Color? textColor;
@@ -14,7 +14,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     Key? key,
     required this.text,
-    required this.onPressed,
+    required this.onPressed, // still required, but nullable
     this.isLoading = false,
     this.backgroundColor,
     this.textColor,
@@ -25,15 +25,21 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEnabled = onPressed != null && !isLoading;
+
     return SizedBox(
       width: width ?? double.infinity,
       height: height,
       child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
+        onPressed: isEnabled
+            ? onPressed
+            : null, // ✅ prevents null callback issues
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor ?? AppColors.primaryColor,
+          backgroundColor: isEnabled
+              ? (backgroundColor ?? AppColors.primaryColor)
+              : (AppColors.primaryColor.withOpacity(0.4)),
           foregroundColor: textColor ?? AppColors.white,
-          elevation: 2,
+          elevation: isEnabled ? 3 : 0,
           shadowColor: AppColors.primaryColor.withOpacity(0.3),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

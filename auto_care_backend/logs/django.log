@@ -348,3 +348,97 @@
 [INFO] 2025-10-12 16:26:57,693 apps.bookings.api.serializers Location-aware booking created: ID 2 at 18.524609, 73.878624 for user 8999513014
 [INFO] 2025-10-12 16:26:57,695 apps.bookings.api.views Location-aware booking created successfully: ID 2 at Current Location (18.524609, 73.878624) for user 8999513014
 [INFO] 2025-10-12 16:26:57,832 django.server "POST /api/bookings/ HTTP/1.1" 201 451
+[INFO] 2025-10-13 16:17:53,114 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-13 16:23:02,870 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-13 16:24:14,428 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 16:24:14,508 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-13 16:24:14,820 apps.accounts.api.views OTP generated for 8999513014: 517012
+[INFO] 2025-10-13 16:24:14,825 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-13 16:24:24,214 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 16:24:25,054 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-13 16:24:25,059 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-13 16:24:25,449 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 16:24:25,625 apps.bookings.api.views Bookings listed for user 8999513014: 2 bookings
+[INFO] 2025-10-13 16:24:25,710 django.server "GET /api/bookings/ HTTP/1.1" 200 846
+[INFO] 2025-10-13 16:26:02,605 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 16:26:02,815 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[WARNING] 2025-10-13 16:27:09,431 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 16:27:09,435 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[WARNING] 2025-10-13 16:27:12,409 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 16:27:12,411 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[WARNING] 2025-10-13 16:27:13,226 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 16:27:13,228 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[WARNING] 2025-10-13 16:27:13,579 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 16:27:13,581 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[WARNING] 2025-10-13 16:27:13,935 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 16:27:13,937 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[WARNING] 2025-10-13 16:27:25,459 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 16:27:25,465 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[WARNING] 2025-10-13 16:27:28,572 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 16:27:28,576 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[WARNING] 2025-10-13 16:27:31,552 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 16:27:31,554 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[INFO] 2025-10-13 16:27:54,952 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-13 16:54:17,489 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-13 16:55:26,726 django.utils.autoreload Watching for file changes with StatReloader
+[WARNING] 2025-10-13 17:10:52,341 django.request Unauthorized: /api/accounts/profile/
+[WARNING] 2025-10-13 17:10:52,331 django.request Unauthorized: /api/bookings/
+[WARNING] 2025-10-13 17:10:52,366 django.server "GET /api/accounts/profile/ HTTP/1.1" 401 172
+[WARNING] 2025-10-13 17:10:52,378 django.server "GET /api/bookings/ HTTP/1.1" 401 172
+[INFO] 2025-10-13 17:10:53,340 django.server "POST /api/accounts/token/refresh/ HTTP/1.1" 200 489
+[INFO] 2025-10-13 17:10:53,357 django.server "POST /api/accounts/token/refresh/ HTTP/1.1" 200 489
+[INFO] 2025-10-13 17:10:55,711 apps.bookings.api.views Bookings listed for user 8999513014: 2 bookings
+[INFO] 2025-10-13 17:10:55,790 django.server "GET /api/bookings/ HTTP/1.1" 200 846
+[INFO] 2025-10-13 17:10:56,458 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-13 17:10:56,463 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 60
+[INFO] 2025-10-13 17:11:18,313 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-13 17:11:18,316 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 60
+[INFO] 2025-10-13 17:11:47,219 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-13 17:11:51,968 apps.bookings.api.views Bookings listed for user 8999513014: 2 bookings
+[INFO] 2025-10-13 17:11:52,015 django.server "GET /api/bookings/ HTTP/1.1" 200 846
+[INFO] 2025-10-13 17:12:47,991 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-13 17:12:48,002 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 60
+[INFO] 2025-10-13 17:14:26,931 apps.accounts.api.views Profile updated for 8999513014
+[INFO] 2025-10-13 17:14:26,934 django.server "PUT /api/accounts/profile/ HTTP/1.1" 200 90
+[INFO] 2025-10-13 17:14:27,224 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-13 17:14:27,226 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 90
+[INFO] 2025-10-13 17:19:49,257 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-13 17:24:12,556 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-13 17:24:12,639 apps.bookings.api.views Bookings listed for user 8999513014: 2 bookings
+[INFO] 2025-10-13 17:24:12,681 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 90
+[INFO] 2025-10-13 17:24:12,749 django.server "GET /api/bookings/ HTTP/1.1" 200 868
+[INFO] 2025-10-13 17:39:40,430 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-13 17:43:24,221 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-13 17:43:24,244 apps.bookings.api.views Bookings listed for user 8999513014: 2 bookings
+[INFO] 2025-10-13 17:43:24,280 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 90
+[INFO] 2025-10-13 17:43:24,322 django.server "GET /api/bookings/ HTTP/1.1" 200 868
+[INFO] 2025-10-13 17:47:28,629 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-13 17:49:18,627 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-13 17:49:18,656 apps.bookings.api.views Bookings listed for user 8999513014: 2 bookings
+[INFO] 2025-10-13 17:49:18,746 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 90
+[INFO] 2025-10-13 17:49:18,780 django.server "GET /api/bookings/ HTTP/1.1" 200 868
+[INFO] 2025-10-13 17:49:32,957 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-13 17:56:24,087 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-13 17:56:24,096 apps.bookings.api.views Bookings listed for user 8999513014: 2 bookings
+[INFO] 2025-10-13 17:56:24,186 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 90
+[INFO] 2025-10-13 17:56:24,201 django.server "GET /api/bookings/ HTTP/1.1" 200 868
+[INFO] 2025-10-13 18:10:02,735 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-13 18:12:59,886 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 18:13:01,129 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-13 18:13:02,360 apps.accounts.api.views New user created: 9112666031
+[INFO] 2025-10-13 18:13:02,379 apps.accounts.api.views OTP generated for 9112666031: 652078
+[INFO] 2025-10-13 18:13:02,487 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-13 18:13:16,671 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 18:13:18,577 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-13 18:13:18,734 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-13 18:13:19,934 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 18:13:21,239 apps.bookings.api.views Bookings listed for user 9112666031: 0 bookings
+[INFO] 2025-10-13 18:13:21,259 django.server "GET /api/bookings/ HTTP/1.1" 200 25
+[INFO] 2025-10-13 18:14:09,702 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 18:14:11,304 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[WARNING] 2025-10-13 18:14:35,510 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 18:14:35,519 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[WARNING] 2025-10-13 18:14:37,026 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 18:14:37,031 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[WARNING] 2025-10-13 18:14:38,729 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 18:14:38,828 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123

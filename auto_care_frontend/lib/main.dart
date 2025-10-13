@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'models/user.dart';
 import 'screens/login_screen.dart';
-import 'screens/home_screen.dart'; // This will be the enhanced home screen
-import 'screens/address_list_screen.dart';
-import 'screens/add_address_screen.dart';
-import 'screens/otp_screen.dart';
-import 'services/api_service.dart';
 import 'utils/constants.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'screens/main_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Set system UI overlay style
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -38,65 +34,18 @@ class AutoCareApp extends StatelessWidget {
           seedColor: AppColors.primaryColor,
           primary: AppColors.primaryColor,
         ),
-        appBarTheme: AppBarTheme(
+        textTheme: GoogleFonts.poppinsTextTheme(),
+        appBarTheme: const AppBarTheme(
           backgroundColor: AppColors.primaryColor,
           elevation: 0,
           centerTitle: true,
-          iconTheme: const IconThemeData(color: AppColors.white),
-          titleTextStyle: const TextStyle(
+          iconTheme: IconThemeData(color: AppColors.white),
+          titleTextStyle: TextStyle(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
             color: AppColors.white,
           ),
           systemOverlayStyle: SystemUiOverlayStyle.light,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryColor,
-            foregroundColor: AppColors.white,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            textStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            foregroundColor: AppColors.primaryColor,
-            side: BorderSide(color: AppColors.primaryColor),
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: AppColors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.grey),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.grey, width: 1.5),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.error),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 16,
-          ),
         ),
         cardTheme: const CardThemeData(
           elevation: 2,
@@ -107,12 +56,6 @@ class AutoCareApp extends StatelessWidget {
         ),
       ),
       home: const SplashScreen(),
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/home': (context) => HomeScreen(),
-        '/addresses': (context) => AddressListScreen(),
-        '/add-address': (context) => AddAddressScreen(),
-      },
     );
   }
 }
@@ -124,141 +67,127 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
+
   @override
   void initState() {
     super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+
+    _scaleAnimation = Tween<double>(
+      begin: 0.5,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
+
+    _controller.forward();
     _checkLoginStatus();
   }
 
-  Future<void> _checkLoginStatus() async {
-    // Show splash for minimum 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
-
-    try {
-      final isLoggedIn = await User.isLoggedIn();
-
-      if (!mounted) return;
-
-      if (isLoggedIn) {
-        // Check if user has valid token by trying to get profile
-        final user = await _validateUserSession();
-
-        if (user != null) {
-          // Valid session - go to home
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          );
-        } else {
-          // Invalid session - clear data and go to login
-          await User.clearData();
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()),
-          );
-        }
-      } else {
-        // Not logged in - go to login
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-      }
-    } catch (e) {
-      // Error occurred - go to login
-      print('Splash error: $e');
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-      }
-    }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
-  Future<User?> _validateUserSession() async {
-    try {
-      // Try to get user profile to validate token
-      final user = await ApiService.getUserProfile();
-      return user;
-    } catch (e) {
-      print('Session validation error: $e');
-      return null;
-    }
+  Future<void> _checkLoginStatus() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    final isLoggedIn = await User.isLoggedIn();
+
+    if (!mounted) return;
+
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            isLoggedIn ? const MainScreen() : const LoginScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // App Icon/Logo
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppColors.gradientStart, AppColors.gradientEnd],
+          ),
+        ),
+        child: Center(
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: ScaleTransition(
+              scale: _scaleAnimation,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.black.withOpacity(0.2),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.local_car_wash,
+                      size: 80,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  Text(
+                    AppStrings.appName,
+                    style: GoogleFonts.poppins(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.white,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    AppStrings.appTagline,
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: AppColors.white.withOpacity(0.9),
+                      letterSpacing: 1,
+                    ),
+                  ),
+                  const SizedBox(height: 48),
+                  const CircularProgressIndicator(
+                    color: AppColors.white,
+                    strokeWidth: 3,
                   ),
                 ],
               ),
-              child: Icon(
-                Icons.local_car_wash,
-                size: 60,
-                color: AppColors.primaryColor,
-              ),
             ),
-            const SizedBox(height: 32),
-
-            // App Name
-            const Text(
-              AppStrings.appName,
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: AppColors.white,
-                letterSpacing: 1.5,
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            // Tagline
-            const Text(
-              'Professional Car Care Service',
-              style: TextStyle(
-                fontSize: 16,
-                color: AppColors.white,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            const SizedBox(height: 48),
-
-            // Loading Indicator
-            const CircularProgressIndicator(
-              color: AppColors.white,
-              strokeWidth: 3,
-            ),
-            const SizedBox(height: 16),
-
-            // Loading Text
-            const Text(
-              'Setting up your experience...',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.white,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

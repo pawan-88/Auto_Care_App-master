@@ -276,44 +276,31 @@ class ApiService {
   }
 
   // ---------------------------------------------------
-  // Get User Addresses (FIX ADDRESS LIST ERROR)
+  // Get All Addresses
   // ---------------------------------------------------
-  static Future<List<Map<String, dynamic>>> getAddresses() async {
+  static Future<List<Address>> getAddresses() async {
     try {
       final response = await _authenticatedRequest(
         method: 'GET',
-        url: ApiConstants.addresses, // Make sure this exists in constants
+        url: ApiConstants.addresses,
       );
 
       if (response.statusCode == 200) {
-        final dynamic responseData = jsonDecode(response.body);
-
-        // 🔧 FIX: Handle different response formats
-        if (responseData is List) {
-          return List<Map<String, dynamic>>.from(responseData);
-        } else if (responseData is Map && responseData.containsKey('results')) {
-          // If paginated response
-          return List<Map<String, dynamic>>.from(responseData['results']);
-        } else {
-          print('❌ Unexpected address response format: $responseData');
-          return [];
-        }
-      } else {
-        print('❌ Get addresses failed: ${response.statusCode}');
-        return [];
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((json) => Address.fromJson(json)).toList();
       }
+      return [];
     } catch (e) {
       print('Error getting addresses: $e');
       return [];
     }
   }
-
   // ---------------------------------------------------
   // Location/Address Related APIs (NEW)
   // ---------------------------------------------------
 
   // Get User Addresses
-  static Future<List<AddressModel>> getUserAddresses() async {
+  static Future<List<Address>> getUserAddresses() async {
     try {
       final response = await _authenticatedRequest(
         method: 'GET',
@@ -322,7 +309,7 @@ class ApiService {
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
-        return data.map((json) => AddressModel.fromJson(json)).toList();
+        return data.map((json) => Address.fromJson(json)).toList();
       }
 
       return [];
@@ -332,51 +319,48 @@ class ApiService {
     }
   }
 
+  // ---------------------------------------------------
   // Create Address
-  static Future<AddressModel?> createAddress(
+  // ---------------------------------------------------
+  static Future<Address?> createAddress(
     Map<String, dynamic> addressData,
   ) async {
     try {
-      print('🔵 Creating address: ${jsonEncode(addressData)}');
-
       final response = await _authenticatedRequest(
         method: 'POST',
-        url: '${ApiConstants.baseUrl}/api/locations/addresses/',
+        url: ApiConstants.addresses,
         body: addressData,
       );
 
-      print('🔵 Create Address Status: ${response.statusCode}');
-      print('🔵 Create Address Response: ${response.body}');
-
-      if (response.statusCode == 201 || response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final data = jsonDecode(response.body);
-        print('✅ Address Created Successfully');
-        return AddressModel.fromJson(data);
+        return Address.fromJson(data);
       }
-
       return null;
     } catch (e) {
-      print('❌ Create Address Error: $e');
+      print('Error creating address: $e');
       return null;
     }
   }
 
+  // ---------------------------------------------------
   // Update Address
-  static Future<AddressModel?> updateAddress(
+  // ---------------------------------------------------
+  static Future<Address?> updateAddress(
     int addressId,
     Map<String, dynamic> addressData,
   ) async {
     try {
       final response = await _authenticatedRequest(
         method: 'PUT',
-        url: '${ApiConstants.baseUrl}/api/locations/addresses/$addressId/',
+        url: '${ApiConstants.addresses}$addressId/',
         body: addressData,
       );
 
       if (response.statusCode == 200) {
-        return AddressModel.fromJson(jsonDecode(response.body));
+        final data = jsonDecode(response.body);
+        return Address.fromJson(data);
       }
-
       return null;
     } catch (e) {
       print('Error updating address: $e');
@@ -384,17 +368,36 @@ class ApiService {
     }
   }
 
+  // ---------------------------------------------------
   // Delete Address
+  // ---------------------------------------------------
   static Future<bool> deleteAddress(int addressId) async {
     try {
       final response = await _authenticatedRequest(
         method: 'DELETE',
-        url: '${ApiConstants.baseUrl}/api/locations/addresses/$addressId/',
+        url: '${ApiConstants.addresses}$addressId/',
       );
 
-      return response.statusCode == 200 || response.statusCode == 204;
+      return response.statusCode == 200;
     } catch (e) {
       print('Error deleting address: $e');
+      return false;
+    }
+  }
+
+  // ---------------------------------------------------
+  // Set Default Address
+  // ---------------------------------------------------
+  static Future<bool> setDefaultAddress(int addressId) async {
+    try {
+      final response = await _authenticatedRequest(
+        method: 'POST',
+        url: '${ApiConstants.addresses}$addressId/set-default/',
+      );
+
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Error setting default address: $e');
       return false;
     }
   }
@@ -494,6 +497,79 @@ class ApiService {
       return null;
     } catch (e) {
       print('Reverse geocoding error: $e');
+      return null;
+    }
+  }
+
+  // ---------------------------------------------------
+  // Get All Bookings
+  // ---------------------------------------------------
+  static Future<List<Booking>> getBookings() async {
+    try {
+      final response = await _authenticatedRequest(
+        method: 'GET',
+        url: ApiConstants.bookings,
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        return data.map((json) => Booking.fromJson(json)).toList();
+      } else {
+        print('❌ Failed to fetch bookings: ${response.body}');
+        return [];
+      }
+    } catch (e) {
+      print('❌ Error getting bookings: $e');
+      return [];
+    }
+  }
+
+  // ---------------------------------------------------
+  // Cancel Booking
+  // ---------------------------------------------------
+  static Future<bool> cancelBooking(int bookingId) async {
+    try {
+      final response = await _authenticatedRequest(
+        method: 'POST',
+        url: '${ApiConstants.bookings}$bookingId/cancel/',
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        print('✅ Booking #$bookingId cancelled successfully');
+        return true;
+      } else {
+        print('❌ Failed to cancel booking: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('❌ Cancel Booking Error: $e');
+      return false;
+    }
+  }
+
+  // ---------------------------------------------------
+  // Update User Profile
+  // ---------------------------------------------------
+  static Future<User?> updateUserProfile(Map<String, dynamic> userData) async {
+    try {
+      final response = await _authenticatedRequest(
+        method: 'PUT',
+        url: ApiConstants.userProfile,
+        body: userData,
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final updatedUser = User.fromJson(data);
+        await User.saveUserData(updatedUser);
+        print('✅ User profile updated successfully');
+        return updatedUser;
+      } else {
+        print('❌ Failed to update profile: ${response.body}');
+        return null;
+      }
+    } catch (e) {
+      print('❌ Update profile error: $e');
       return null;
     }
   }

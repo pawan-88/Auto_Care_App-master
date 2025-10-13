@@ -1,139 +1,265 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../services/location_service.dart';
 import '../models/address.dart';
+import '../services/api_service.dart';
 import '../utils/constants.dart';
-import 'map_picker_screen.dart';
+import '../utils/validators.dart';
+import '../widgets/custom_button.dart';
+import '../widgets/custom_text_field.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  const AddAddressScreen({Key? key}) : super(key: key);
+  final Address? address;
+
+  const AddAddressScreen({Key? key, this.address}) : super(key: key);
 
   @override
-  _AddAddressScreenState createState() => _AddAddressScreenState();
+  State<AddAddressScreen> createState() => _AddAddressScreenState();
 }
 
 class _AddAddressScreenState extends State<AddAddressScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _labelController = TextEditingController(text: "Home");
-  final _addrController = TextEditingController();
-  double? _lat;
-  double? _lng;
-  bool _loading = false;
+  final _addressLine1Controller = TextEditingController();
+  final _addressLine2Controller = TextEditingController();
+  final _landmarkController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _stateController = TextEditingController();
+  final _pincodeController = TextEditingController();
+
+  String _selectedType = 'home';
+  bool _isDefault = false;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.address != null) {
+      _addressLine1Controller.text = widget.address!.addressLine1;
+      _addressLine2Controller.text = widget.address!.addressLine2 ?? '';
+      _landmarkController.text = widget.address!.landmark ?? '';
+      _cityController.text = widget.address!.city;
+      _stateController.text = widget.address!.state;
+      _pincodeController.text = widget.address!.pincode;
+      _selectedType = widget.address!.addressType;
+      _isDefault = widget.address!.isDefault;
+    }
+  }
 
   @override
   void dispose() {
-    _labelController.dispose();
-    _addrController.dispose();
+    _addressLine1Controller.dispose();
+    _addressLine2Controller.dispose();
+    _landmarkController.dispose();
+    _cityController.dispose();
+    _stateController.dispose();
+    _pincodeController.dispose();
     super.dispose();
   }
 
-  Future<void> _pickOnMap() async {
-    final res = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => MapPickerScreen()),
-    );
-    if (res != null && res is Map<String, dynamic>) {
-      setState(() {
-        _lat = res['lat'];
-        _lng = res['lng'];
-        _addrController.text = res['address'] ?? "${_lat}, ${_lng}";
-      });
-    }
-  }
-
-  Future<void> _save() async {
+  Future<void> _saveAddress() async {
     if (!_formKey.currentState!.validate()) return;
-    if (_lat == null || _lng == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Please pick location on map.")));
-      return;
-    }
-    setState(() => _loading = true);
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString(ApiConstants.accessTokenKey) ?? '';
-    final address = AddressModel(
-      label: _labelController.text.trim(),
-      addressLine: _addrController.text.trim(),
-      latitude: _lat!,
-      longitude: _lng!,
-      isDefault: false,
-    );
-    try {
-      await LocationService.createAddress(token, address);
-      Navigator.pop(context, true);
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Failed to save: $e")));
-    } finally {
-      setState(() => _loading = false);
-    }
-  }
 
-  Future<void> _useCurrentLocation() async {
-    try {
-      final pos = await LocationService.getCurrentPosition();
-      setState(() {
-        _lat = pos.latitude;
-        _lng = pos.longitude;
-        _addrController.text = "${pos.latitude}, ${pos.longitude}";
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Location failed: $e")));
+    setState(() => _isLoading = true);
+
+    final addressData = {
+      'address_type': _selectedType,
+      'address_line1': _addressLine1Controller.text.trim(),
+      'address_line2': _addressLine2Controller.text.trim(),
+      'landmark': _landmarkController.text.trim(),
+      'city': _cityController.text.trim(),
+      'state': _stateController.text.trim(),
+      'pincode': _pincodeController.text.trim(),
+      'is_default': _isDefault,
+    };
+
+    Address? result;
+    if (widget.address != null) {
+      result = await ApiService.updateAddress(widget.address!.id!, addressData);
+    } else {
+      result = await ApiService.createAddress(addressData);
+    }
+
+    setState(() => _isLoading = false);
+
+    if (!mounted) return;
+
+    if (result != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            widget.address != null
+                ? 'Address updated successfully'
+                : 'Address added successfully',
+          ),
+          backgroundColor: AppColors.success,
+        ),
+      );
+      Navigator.pop(context, true);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to save address'),
+          backgroundColor: AppColors.error,
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Address")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+      appBar: AppBar(
+        title: Text(
+          widget.address != null ? 'Edit Address' : 'Add New Address',
+        ),
+      ),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
           children: [
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: _labelController,
-                    decoration: InputDecoration(labelText: "Label"),
-                  ),
-                  TextFormField(
-                    controller: _addrController,
-                    decoration: InputDecoration(labelText: "Address"),
-                    maxLines: 2,
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: _useCurrentLocation,
-                        icon: Icon(Icons.my_location),
-                        label: Text("Use Current"),
-                      ),
-                      const SizedBox(width: 12),
-                      ElevatedButton.icon(
-                        onPressed: _pickOnMap,
-                        icon: Icon(Icons.map),
-                        label: Text("Pick on map"),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _loading ? null : _save,
-                    child: _loading
-                        ? CircularProgressIndicator()
-                        : const Text("Save Address"),
-                  ),
-                ],
+            const Text(
+              'Address Type',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
               ),
             ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                _buildTypeChip('home', 'Home', Icons.home),
+                const SizedBox(width: 12),
+                _buildTypeChip('work', 'Work', Icons.work),
+                const SizedBox(width: 12),
+                _buildTypeChip('other', 'Other', Icons.location_on),
+              ],
+            ),
+            const SizedBox(height: 24),
+            CustomTextField(
+              controller: _addressLine1Controller,
+              label: 'House/Flat/Building No.',
+              hint: 'Enter house/flat/building number',
+              validator: (value) =>
+                  Validators.validateRequired(value, 'Address'),
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              controller: _addressLine2Controller,
+              label: 'Street/Area (Optional)',
+              hint: 'Enter street or area name',
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              controller: _landmarkController,
+              label: 'Landmark (Optional)',
+              hint: 'Enter nearby landmark',
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    controller: _cityController,
+                    label: 'City',
+                    hint: 'Enter city',
+                    validator: (value) =>
+                        Validators.validateRequired(value, 'City'),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: CustomTextField(
+                    controller: _stateController,
+                    label: 'State',
+                    hint: 'Enter state',
+                    validator: (value) =>
+                        Validators.validateRequired(value, 'State'),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              controller: _pincodeController,
+              label: 'Pincode',
+              hint: 'Enter 6-digit pincode',
+              keyboardType: TextInputType.number,
+              maxLength: 6,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Pincode is required';
+                }
+                if (value.length != 6) {
+                  return 'Pincode must be 6 digits';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 16),
+            CheckboxListTile(
+              value: _isDefault,
+              onChanged: (value) {
+                setState(() {
+                  _isDefault = value ?? false;
+                });
+              },
+              title: const Text('Set as default address'),
+              contentPadding: EdgeInsets.zero,
+              activeColor: AppColors.primaryColor,
+            ),
+            const SizedBox(height: 24),
+            CustomButton(
+              text: widget.address != null ? 'Update Address' : 'Save Address',
+              onPressed: _saveAddress,
+              isLoading: _isLoading,
+              icon: Icons.save,
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTypeChip(String type, String label, IconData icon) {
+    final isSelected = _selectedType == type;
+
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _selectedType = type;
+          });
+        },
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? AppColors.primaryColor
+                : AppColors.grey.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isSelected ? AppColors.primaryColor : AppColors.divider,
+            ),
+          ),
+          child: Column(
+            children: [
+              Icon(
+                icon,
+                color: isSelected ? AppColors.white : AppColors.grey,
+                size: 24,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: isSelected ? AppColors.white : AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

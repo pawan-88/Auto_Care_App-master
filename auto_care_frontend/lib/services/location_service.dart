@@ -32,7 +32,7 @@ class LocationService {
   }
 
   // Fetch user addresses
-  static Future<List<AddressModel>> fetchAddresses(String token) async {
+  static Future<List<Address>> fetchAddresses(String token) async {
     final resp = await http.get(
       Uri.parse("${ApiConstants.baseUrl}/api/locations/addresses/"),
       headers: {
@@ -42,16 +42,13 @@ class LocationService {
     );
     if (resp.statusCode == 200) {
       final List<dynamic> arr = jsonDecode(resp.body);
-      return arr.map((e) => AddressModel.fromJson(e)).toList();
+      return arr.map((e) => Address.fromJson(e)).toList();
     }
     throw Exception("Failed to load addresses: ${resp.body}");
   }
 
   // Create address
-  static Future<AddressModel> createAddress(
-    String token,
-    AddressModel address,
-  ) async {
+  static Future<Address> createAddress(String token, Address address) async {
     final resp = await http.post(
       Uri.parse("${ApiConstants.baseUrl}/api/locations/addresses/"),
       headers: {
@@ -61,7 +58,7 @@ class LocationService {
       body: jsonEncode(address.toJson()),
     );
     if (resp.statusCode == 200 || resp.statusCode == 201) {
-      return AddressModel.fromJson(jsonDecode(resp.body));
+      return Address.fromJson(jsonDecode(resp.body));
     }
     throw Exception("Failed to create address: ${resp.body}");
   }

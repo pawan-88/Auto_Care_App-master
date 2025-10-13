@@ -1,787 +1,473 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import '../services/api_service.dart';
-import '../services/location_service.dart';
-import '../models/address.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/user.dart';
+import '../models/booking.dart';
+import '../services/api_service.dart';
 import '../utils/constants.dart';
-import '../widgets/custom_button.dart';
-import 'address_list_screen.dart';
-import 'add_address_screen.dart';
-import 'login_screen.dart';
+import '../widgets/service_card.dart';
+import '../widgets/quick_action_button.dart';
+import '../screens/booking_list_screen.dart';
+import 'wash_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _formKey = GlobalKey<FormState>();
-
-  // User location state
-  bool _locationPermissionGranted = false;
-  bool _checkingLocation = true;
-  Position? _currentPosition;
-  AddressModel? _selectedAddress;
-  List<AddressModel> _savedAddresses = [];
-
-  // Booking form state
-  String? _vehicleType;
-  DateTime? _selectedDate;
-  String? _timeSlot;
-  final TextEditingController _notesController = TextEditingController();
-  bool _loading = false;
-
-  List<String> _vehicleOptions = ["car", "bike"];
-  List<String> _timeSlots = [
-    "05:00 AM",
-    "06:00 AM",
-    "07:00 AM",
-    "08:00 AM",
-    "09:00 AM",
-    "10:00 AM",
-    "11:00 AM",
-    "12:00 PM",
-    "01:00 PM",
-    "02:00 PM",
-    "03:00 PM",
-    "04:00 PM",
-    "05:00 PM",
-    "06:00 PM",
-    "07:00 PM",
-    "08:00 PM",
-    "09:00 PM",
-    "10:00 PM",
-  ];
+  User? _currentUser;
+  List<Booking> _recentBookings = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _initializeLocationAndAddresses();
+    _loadData();
   }
 
-  Future<void> _initializeLocationAndAddresses() async {
-    setState(() => _checkingLocation = true);
+  Future<void> _loadData() async {
+    setState(() => _isLoading = true);
 
-    try {
-      // Check location permission
-      await _checkLocationPermission();
+    // Load user data
+    _currentUser = await User.getUserData();
 
-      // Load saved addresses
-      await _loadSavedAddresses();
+    // Load recent bookings
+    final bookings = await ApiService.getBookings();
+    _recentBookings = bookings.take(3).toList();
 
-      // Get current location if permission granted
-      if (_locationPermissionGranted) {
-        await _getCurrentLocation();
-      }
-    } catch (e) {
-      print('Error initializing location: $e');
-      _showErrorSnackBar('Error setting up location: $e');
-    }
-
-    setState(() => _checkingLocation = false);
-  }
-
-  Future<void> _checkLocationPermission() async {
-    try {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        _showLocationServiceDialog();
-        return;
-      }
-
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-      }
-
-      if (permission == LocationPermission.deniedForever) {
-        _showLocationPermissionDialog();
-        return;
-      }
-
-      if (permission == LocationPermission.whileInUse ||
-          permission == LocationPermission.always) {
-        setState(() => _locationPermissionGranted = true);
-      }
-    } catch (e) {
-      print('Location permission error: $e');
-    }
-  }
-
-  Future<void> _getCurrentLocation() async {
-    try {
-      final position = await LocationService.getCurrentPosition();
-      setState(() => _currentPosition = position);
-    } catch (e) {
-      print('Current location error: $e');
-    }
-  }
-
-  Future<void> _loadSavedAddresses() async {
-    try {
-      final addresses = await ApiService.getUserAddresses();
-      setState(() => _savedAddresses = addresses);
-
-      // Auto-select first address if available
-      if (addresses.isNotEmpty && _selectedAddress == null) {
-        setState(() => _selectedAddress = addresses.first);
-      }
-    } catch (e) {
-      print('Error loading addresses: $e');
-    }
-  }
-
-  void _showLocationServiceDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text('Location Service Required'),
-        content: Text(
-          'Please enable location services to get your current location for booking service.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _showAddressSelection();
-            },
-            child: Text('Use Saved Address'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Geolocator.openLocationSettings();
-            },
-            child: Text('Enable Location'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showLocationPermissionDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text('Location Permission Required'),
-        content: Text(
-          'Location permission is required to provide service at your location. Please grant permission in app settings.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _showAddressSelection();
-            },
-            child: Text('Use Saved Address'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Geolocator.openAppSettings();
-            },
-            child: Text('Open Settings'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showAddressSelection() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => Container(
-        padding: EdgeInsets.all(16),
-        height: MediaQuery.of(context).size.height * 0.7,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Select Service Address',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Icon(Icons.close),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-
-            // Current Location Option
-            if (_locationPermissionGranted && _currentPosition != null)
-              Card(
-                child: ListTile(
-                  leading: Icon(
-                    Icons.my_location,
-                    color: AppColors.primaryColor,
-                  ),
-                  title: Text('Current Location'),
-                  subtitle: Text('Use your current GPS location'),
-                  trailing: _selectedAddress == null
-                      ? Icon(Icons.check, color: AppColors.primaryColor)
-                      : null,
-                  onTap: () {
-                    setState(() => _selectedAddress = null);
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-
-            SizedBox(height: 8),
-
-            // Saved Addresses
-            Text(
-              'Saved Addresses',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-
-            Expanded(
-              child: _savedAddresses.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.location_off,
-                            size: 64,
-                            color: Colors.grey,
-                          ),
-                          SizedBox(height: 16),
-                          Text('No saved addresses'),
-                          SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: () async {
-                              Navigator.pop(context);
-                              final result = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddAddressScreen(),
-                                ),
-                              );
-                              if (result == true) {
-                                _loadSavedAddresses();
-                              }
-                            },
-                            child: Text('Add Address'),
-                          ),
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: _savedAddresses.length,
-                      itemBuilder: (context, index) {
-                        final address = _savedAddresses[index];
-                        final isSelected = _selectedAddress?.id == address.id;
-
-                        return Card(
-                          child: ListTile(
-                            leading: Icon(
-                              _getAddressIcon(address.label),
-                              color: isSelected
-                                  ? AppColors.primaryColor
-                                  : Colors.grey,
-                            ),
-                            title: Text(address.label),
-                            subtitle: Text(address.addressLine),
-                            trailing: isSelected
-                                ? Icon(
-                                    Icons.check,
-                                    color: AppColors.primaryColor,
-                                  )
-                                : null,
-                            onTap: () {
-                              setState(() => _selectedAddress = address);
-                              Navigator.pop(context);
-                            },
-                          ),
-                        );
-                      },
-                    ),
-            ),
-
-            // Add New Address Button
-            SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () async {
-                  Navigator.pop(context);
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddAddressScreen()),
-                  );
-                  if (result == true) {
-                    _loadSavedAddresses();
-                  }
-                },
-                icon: Icon(Icons.add),
-                label: Text('Add New Address'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  IconData _getAddressIcon(String type) {
-    switch (type.toLowerCase()) {
-      case 'home':
-        return Icons.home;
-      case 'work':
-        return Icons.work;
-      case 'other':
-      default:
-        return Icons.location_on;
-    }
-  }
-
-  Future<void> _pickDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 30)),
-    );
-    if (picked != null) setState(() => _selectedDate = picked);
-  }
-
-  String _formatDate(DateTime date) {
-    return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
-  }
-
-  void _submitBooking() async {
-    if (!_formKey.currentState!.validate() || _selectedDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please fill all required fields")),
-      );
-      return;
-    }
-
-    // Check if location is selected
-    if (_selectedAddress == null && _currentPosition == null) {
-      _showErrorSnackBar("Please select a service location");
-      _showAddressSelection();
-      return;
-    }
-
-    setState(() => _loading = true);
-
-    // 🔧 FIX: Proper booking data format with location
-    final bookingData = {
-      "vehicle_type": _vehicleType,
-      "date": _selectedDate!.toIso8601String().split(
-        "T",
-      )[0], // ✅ Already correct
-      "time_slot": _timeSlot,
-      "notes": _notesController.text,
-
-      // 🆕 ADD: Location data (get from location service or user selection)
-      "latitude": 18.524609, // ✅ 6 decimal places max
-      "longitude": 73.878624, // ✅ 6 decimal places max
-      "service_address": "Current Location", // Or get from location service
-    };
-
-    try {
-      final response = await ApiService.createBooking(bookingData);
-      setState(() => _loading = false);
-
-      if (response.containsKey("id")) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("Booking successful!")));
-        // Clear form
-        setState(() {
-          _vehicleType = null;
-          _selectedDate = null;
-          _timeSlot = null;
-          _notesController.clear();
-        });
-      } else {
-        final errorMessage = response['error']?.toString() ?? 'Booking failed';
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(errorMessage)));
-      }
-    } catch (e) {
-      setState(() => _loading = false);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
-    }
-  }
-
-  void _showBookingSuccessDialog(Map<String, dynamic> booking) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(Icons.check_circle, color: Colors.green),
-            SizedBox(width: 8),
-            Text('Booking Confirmed'),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Booking ID: #${booking["id"]}'),
-            SizedBox(height: 8),
-            Text('Vehicle: ${_vehicleType?.toUpperCase()}'),
-            Text('Date: ${_selectedDate?.toLocal().toString().split(" ")}'),
-            Text('Time: $_timeSlot'),
-            if (_selectedAddress != null)
-              Text('Location: ${_selectedAddress!.label}')
-            else
-              Text('Location: Current Location'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showErrorSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: AppColors.error),
-    );
-  }
-
-  void _showSuccessSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: AppColors.success),
-    );
+    setState(() => _isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_checkingLocation) {
-      return Scaffold(
-        appBar: AppBar(title: Text("Auto Care")),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 16),
-              Text('Setting up location services...'),
-            ],
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Book Service"),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await ApiService.logout();
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-                (route) => false,
-              );
-            },
-            icon: Icon(Icons.logout),
-          ),
-        ],
+      body: RefreshIndicator(
+        onRefresh: _loadData,
+        color: AppColors.primaryColor,
+        child: CustomScrollView(
+          slivers: [
+            // App Bar
+            _buildAppBar(),
+
+            // Welcome Section
+            SliverToBoxAdapter(child: _buildWelcomeSection()),
+
+            // Quick Actions
+            SliverToBoxAdapter(child: _buildQuickActions()),
+
+            // Services Showcase
+            SliverToBoxAdapter(child: _buildServicesShowcase()),
+
+            // Recent Bookings
+            SliverToBoxAdapter(child: _buildRecentBookings()),
+
+            // Bottom Padding
+            const SliverToBoxAdapter(child: SizedBox(height: 100)),
+          ],
+        ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Location Section
-              Card(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: AppColors.primaryColor,
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            'Service Location',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 12),
+    );
+  }
 
-                      if (_selectedAddress != null)
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: AppColors.primaryColor.withOpacity(0.3),
-                            ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _selectedAddress!.label,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 4),
-                              Text(_selectedAddress!.addressLine),
-                            ],
-                          ),
-                        )
-                      else if (_currentPosition != null)
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: AppColors.primaryColor.withOpacity(0.3),
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.my_location,
-                                color: AppColors.primaryColor,
-                              ),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Current Location',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      'GPS: ${_currentPosition!.latitude.toStringAsFixed(4)}, '
-                                      '${_currentPosition!.longitude.toStringAsFixed(4)}',
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      else
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Colors.red.withOpacity(0.3),
-                            ),
-                          ),
-                          child: Text(
-                            'No location selected',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        ),
-
-                      SizedBox(height: 12),
-                      SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton.icon(
-                          onPressed: _showAddressSelection,
-                          icon: Icon(Icons.location_searching),
-                          label: Text('Select Location'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 16),
-
-              // Booking Form
-              Card(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildAppBar() {
+    return SliverAppBar(
+      expandedHeight: 120,
+      floating: false,
+      pinned: true,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [AppColors.gradientStart, AppColors.gradientEnd],
+            ),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
                     children: [
                       Text(
-                        'Booking Details',
-                        style: TextStyle(
-                          fontSize: 16,
+                        AppStrings.appName,
+                        style: GoogleFonts.poppins(
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
+                          color: AppColors.white,
                         ),
                       ),
-                      SizedBox(height: 16),
-
-                      // Vehicle Type
-                      DropdownButtonFormField<String>(
-                        value: _vehicleType,
-                        hint: Text("Select Vehicle Type"),
-                        items: _vehicleOptions
-                            .map(
-                              (v) => DropdownMenuItem(
-                                value: v,
-                                child: Text(v.toUpperCase()),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (val) => setState(() => _vehicleType = val),
-                        validator: (val) => val == null ? "Required" : null,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.directions_car),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.notifications_outlined,
+                          color: AppColors.white,
                         ),
-                      ),
-                      SizedBox(height: 16),
-
-                      // Date Selection
-                      InkWell(
-                        onTap: _pickDate,
-                        child: InputDecorator(
-                          decoration: InputDecoration(
-                            labelText: 'Service Date',
-                            prefixIcon: Icon(Icons.calendar_today),
-                          ),
-                          child: Text(
-                            _selectedDate == null
-                                ? "Select Service Date"
-                                : _formatDate(_selectedDate!),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 16),
-
-                      // Time Slot
-                      DropdownButtonFormField<String>(
-                        value: _timeSlot,
-                        hint: Text("Select Time Slot"),
-                        items: _timeSlots
-                            .map(
-                              (v) => DropdownMenuItem(value: v, child: Text(v)),
-                            )
-                            .toList(),
-                        onChanged: (val) => setState(() => _timeSlot = val),
-                        validator: (val) => val == null ? "Required" : null,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.access_time),
-                        ),
-                      ),
-                      SizedBox(height: 16),
-
-                      // Notes
-                      TextFormField(
-                        controller: _notesController,
-                        decoration: InputDecoration(
-                          labelText: "Special Instructions (Optional)",
-                          prefixIcon: Icon(Icons.note),
-                        ),
-                        maxLines: 3,
+                        onPressed: () {
+                          // TODO: Navigate to notifications
+                        },
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
-
-              SizedBox(height: 24),
-
-              // Book Now Button
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: _loading ? null : _submitBooking,
-                  child: _loading
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            ),
-                            SizedBox(width: 12),
-                            Text("Booking..."),
-                          ],
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.book_online),
-                            SizedBox(width: 8),
-                            Text("Book Now"),
-                          ],
-                        ),
-                ),
-              ),
-
-              SizedBox(height: 16),
-
-              // Info Card
-              Card(
-                color: AppColors.primaryColor.withOpacity(0.1),
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(Icons.info_outline, color: AppColors.primaryColor),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Our team will arrive at your selected location at the chosen time slot.',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  @override
-  void dispose() {
-    _notesController.dispose();
-    super.dispose();
+  Widget _buildWelcomeSection() {
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMedium),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.waving_hand,
+                  color: AppColors.primaryColor,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.welcomeBack,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    Text(
+                      _currentUser?.name ?? 'Guest',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              const Icon(
+                Icons.location_on,
+                size: 18,
+                color: AppColors.textSecondary,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  _currentUser?.address ?? 'Add your address',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: AppColors.textSecondary,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  // TODO: Navigate to address selection
+                },
+                child: const Text('Change'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuickActions() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppStrings.quickActions,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: QuickActionButton(
+                  icon: Icons.directions_car,
+                  title: 'Car Wash',
+                  subtitle: 'Starting ₹299',
+                  color: AppColors.primaryColor,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const WashScreen(initialVehicle: 'car'),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: QuickActionButton(
+                  icon: Icons.two_wheeler,
+                  title: 'Bike Wash',
+                  subtitle: 'Starting ₹149',
+                  color: AppColors.success,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const WashScreen(initialVehicle: 'bike'),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServicesShowcase() {
+    final services = [
+      {
+        'title': 'Basic Car Wash',
+        'subtitle': 'Exterior wash & tire cleaning',
+        'price': '₹299',
+        'icon': Icons.local_car_wash,
+        'color': AppColors.primaryColor,
+      },
+      {
+        'title': 'Premium Wash',
+        'subtitle': 'Everything + interior vacuum',
+        'price': '₹499',
+        'icon': Icons.star,
+        'color': AppColors.warning,
+      },
+      {
+        'title': 'Full Detailing',
+        'subtitle': 'Complete car care package',
+        'price': '₹1499',
+        'icon': Icons.diamond,
+        'color': AppColors.success,
+      },
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              AppStrings.ourServices,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 200,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: services.length,
+              itemBuilder: (context, index) {
+                final service = services[index];
+                return ServiceCard(
+                  title: service['title'] as String,
+                  subtitle: service['subtitle'] as String,
+                  price: service['price'] as String,
+                  icon: service['icon'] as IconData,
+                  color: service['color'] as Color,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WashScreen(),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRecentBookings() {
+    if (_recentBookings.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  AppStrings.recentBookings,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BookingsListScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(AppStrings.viewAll),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: _recentBookings.length,
+            itemBuilder: (context, index) {
+              final booking = _recentBookings[index];
+              return _buildBookingCard(booking);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBookingCard(Booking booking) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMedium),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: booking.getStatusColor().withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              booking.getVehicleIcon(),
+              color: booking.getStatusColor(),
+              size: 28,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  booking.vehicleType.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '${booking.getFormattedDate()} • ${booking.timeSlot}',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: booking.getStatusColor().withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              booking.status.toUpperCase(),
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: booking.getStatusColor(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
