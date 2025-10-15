@@ -29,16 +29,52 @@ class Address(models.Model):
     """
     User-saved address
     """
-    user = models.ForeignKey(USER_MODEL, on_delete=models.CASCADE, related_name="addresses")
-    label = models.CharField(max_length=100, default="Home")  # Home/Work/Other
-    address_line = models.TextField()
-    latitude = models.DecimalField(max_digits=9, decimal_places=6)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+
+    ADDRESS_TYPE_CHOICES = [
+        ('home', 'Home'),
+        ('work', 'Work'),
+        ('other', 'Other'),
+    ]
+
+    user = models.ForeignKey(USER_MODEL, on_delete=models.CASCADE, related_name="user_addresses")  # Changed related_name
+    address_type = models.CharField(max_length=20, choices=ADDRESS_TYPE_CHOICES, default='home')
+    address_line1 = models.CharField(max_length=255)  # House/Flat/Building No.
+    address_line2 = models.CharField(max_length=255, blank=True)  # Street/Area
+    landmark = models.CharField(max_length=255, blank=True)  # Landmark
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    pincode = models.CharField(max_length=10)
+
+    # For backwards compatibility
+    address_line = models.TextField(blank=True)  # Auto-generated full address
+    
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, default=0.0)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, default=0.0)
     is_default = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
         ordering = ("-is_default", "-created_at")
+        verbose_name_plural = "Addresses"
+
+    def save(self, *args, **kwargs):
+        # Auto-generate full address line
+        if not self.address_line:
+            address_parts = [
+                self.address_line1,
+                self.address_line2,
+                self.landmark,
+                self.city,
+                self.state,
+                self.pincode
+            ]
+            self.address_line = ', '.join(filter(None, address_parts))
+        
+        # If this is set as default, unset other defaults for this user
+        if self.is_default:
+            Address.objects.filter(user=self.user, is_default=True).update(is_default=False)
+            
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.label} - {self.address_line[:40]}"

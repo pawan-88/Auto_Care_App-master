@@ -30,7 +30,7 @@ class _WashScreenState extends State<WashScreen> {
   // Step 3: Date & Time Selection
   DateTime? _selectedDate;
   String? _selectedTimeSlot;
-  Address? _selectedAddress;
+  AddressModel? _selectedAddress;
   final TextEditingController _notesController = TextEditingController();
 
   bool _isLoading = false;
@@ -689,7 +689,7 @@ class _WashScreenState extends State<WashScreen> {
           const SizedBox(height: 12),
           InkWell(
             onTap: () async {
-              final address = await Navigator.push<Address>(
+              final address = await Navigator.push<AddressModel>(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const AddressSelectionScreen(),

@@ -10,9 +10,9 @@ from apps.accounts.api.serializers import UserProfileSerializer
 from apps.accounts.utils import generate_otp, normalize_mobile_number, validate_mobile_number
 import logging
 from apps.locations.models import Address
-from apps.locations.api.serializers import AddressSerializer
+from apps.locations.api.serializers import AddressSerializer, ServiceAreaSerializer
 # from apps.accounts.models import Address
-# from apps.accounts.api.serializers import AddressSerializer
+# from serializers import AddressSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -211,15 +211,20 @@ class AddressListCreateView(APIView):
         addresses = Address.objects.filter(user=request.user)
         serializer = AddressSerializer(addresses, many=True)
         logger.info(f"Addresses listed for user {request.user.mobile_number}: {addresses.count()} addresses")
-        return Response(serializer.data)
+        
+        # CRITICAL: Always return a list, even if empty
+        return Response(serializer.data if serializer.data else [], status=status.HTTP_200_OK)
     
     def post(self, request):
         """Create new address"""
+        logger.info(f"Address creation request from {request.user.mobile_number}: {request.data}")
+        
         serializer = AddressSerializer(data=request.data)
         if serializer.is_valid():
             address = serializer.save(user=request.user)
             logger.info(f"Address created: {address.id} for user {request.user.mobile_number}")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
         logger.warning(f"Address creation failed for {request.user.mobile_number}: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

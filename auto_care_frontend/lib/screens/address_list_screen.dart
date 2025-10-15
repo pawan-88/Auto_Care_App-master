@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/address.dart';
-import '../services/api_service.dart';
 import '../utils/constants.dart';
 import 'add_address_screen.dart';
 
@@ -12,7 +14,7 @@ class AddressListScreen extends StatefulWidget {
 }
 
 class _AddressListScreenState extends State<AddressListScreen> {
-  List<Address> _addresses = [];
+  List<AddressModel> _addresses = [];
   bool _isLoading = true;
 
   @override
@@ -21,13 +23,73 @@ class _AddressListScreenState extends State<AddressListScreen> {
     _loadAddresses();
   }
 
+  // =====================================================
+  // Load Addresses from API
+  // =====================================================
   Future<void> _loadAddresses() async {
     setState(() => _isLoading = true);
-    _addresses = await ApiService.getAddresses();
-    setState(() => _isLoading = false);
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString(ApiConstants.accessTokenKey) ?? '';
+
+      print(
+        '🔵 Fetching addresses from: ${ApiConstants.baseUrl}/api/locations/addresses/',
+      );
+
+      final response = await http.get(
+        Uri.parse('${ApiConstants.baseUrl}/api/locations/addresses/'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      print('🔵 Address Response Status: ${response.statusCode}');
+      print('🔵 Address Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+
+        // Handle paginated response
+        if (data.containsKey('results')) {
+          final List results = data['results'];
+          print('✅ Addresses parsed: ${results.length} addresses');
+          setState(
+            () => _addresses = results
+                .map((e) => AddressModel.fromJson(e))
+                .toList(),
+          );
+        } else {
+          // Handle direct array response
+          final List arr = jsonDecode(response.body);
+          setState(
+            () =>
+                _addresses = arr.map((e) => AddressModel.fromJson(e)).toList(),
+          );
+        }
+      } else {
+        throw Exception("Failed to load addresses: ${response.body}");
+      }
+    } catch (e) {
+      print('❌ Error loading addresses: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to load addresses: $e'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
-  Future<void> _deleteAddress(Address address) async {
+  // =====================================================
+  // Delete Address
+  // =====================================================
+  Future<void> _deleteAddress(AddressModel address) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -49,48 +111,96 @@ class _AddressListScreenState extends State<AddressListScreen> {
 
     if (confirm != true) return;
 
-    final success = await ApiService.deleteAddress(address.id!);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString(ApiConstants.accessTokenKey) ?? '';
 
-    if (!mounted) return;
+      final response = await http.delete(
+        Uri.parse(
+          '${ApiConstants.baseUrl}/api/locations/addresses/${address.id}/',
+        ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Address deleted successfully'),
-          backgroundColor: AppColors.success,
-        ),
-      );
-      _loadAddresses();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to delete address'),
-          backgroundColor: AppColors.error,
-        ),
-      );
+      if (!mounted) return;
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Address deleted successfully'),
+            backgroundColor: AppColors.success,
+          ),
+        );
+        _loadAddresses();
+      } else {
+        throw Exception("Failed to delete address: ${response.body}");
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to delete address: $e'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
     }
   }
 
-  Future<void> _setDefaultAddress(Address address) async {
-    final success = await ApiService.setDefaultAddress(address.id!);
+  // =====================================================
+  // Set Default Address
+  // =====================================================
+  Future<void> _setDefaultAddress(AddressModel address) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString(ApiConstants.accessTokenKey) ?? '';
 
-    if (!mounted) return;
-
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Default address updated'),
-          backgroundColor: AppColors.success,
+      final response = await http.post(
+        Uri.parse(
+          '${ApiConstants.baseUrl}/api/locations/addresses/${address.id}/set-default/',
         ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
       );
-      _loadAddresses();
+
+      if (!mounted) return;
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Default address updated'),
+            backgroundColor: AppColors.success,
+          ),
+        );
+        _loadAddresses();
+      } else {
+        throw Exception("Failed to set default address: ${response.body}");
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to update default address: $e'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Addresses')),
+      appBar: AppBar(
+        title: const Text('My Addresses'),
+        backgroundColor: AppColors.primaryColor,
+        foregroundColor: AppColors.white,
+      ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _addresses.isEmpty
@@ -144,7 +254,7 @@ class _AddressListScreenState extends State<AddressListScreen> {
     );
   }
 
-  Widget _buildAddressCard(Address address) {
+  Widget _buildAddressCard(AddressModel address) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
@@ -177,7 +287,7 @@ class _AddressListScreenState extends State<AddressListScreen> {
                       Row(
                         children: [
                           Text(
-                            address.getAddressTypeLabel(),
+                            address.displayLabel,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -271,7 +381,7 @@ class _AddressListScreenState extends State<AddressListScreen> {
             ),
             const SizedBox(height: 12),
             Text(
-              address.fullAddress ?? address.getShortAddress(),
+              address.fullAddress,
               style: const TextStyle(
                 fontSize: 14,
                 color: AppColors.textSecondary,

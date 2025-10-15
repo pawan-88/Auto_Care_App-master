@@ -1,4 +1,4 @@
-class Address {
+class AddressModel {
   final int? id;
   final String addressType;
   final String addressLine1;
@@ -7,13 +7,12 @@ class Address {
   final String city;
   final String state;
   final String pincode;
-  final double? latitude;
-  final double? longitude;
+  final double latitude;
+  final double longitude;
   final bool isDefault;
-  final String? fullAddress;
-  final DateTime? createdAt;
+  final String? createdAt;
 
-  Address({
+  AddressModel({
     this.id,
     required this.addressType,
     required this.addressLine1,
@@ -22,57 +21,73 @@ class Address {
     required this.city,
     required this.state,
     required this.pincode,
-    this.latitude,
-    this.longitude,
+    required this.latitude,
+    required this.longitude,
     this.isDefault = false,
-    this.fullAddress,
     this.createdAt,
   });
 
-  factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(
-      id: json['id'],
-      addressType: json['address_type'] ?? 'home',
-      addressLine1: json['address_line1'] ?? '',
-      addressLine2: json['address_line2'],
-      landmark: json['landmark'],
-      city: json['city'] ?? '',
-      state: json['state'] ?? '',
-      pincode: json['pincode'] ?? '',
-      latitude: json['latitude'] != null
-          ? double.tryParse(json['latitude'].toString())
-          : null,
-      longitude: json['longitude'] != null
-          ? double.tryParse(json['longitude'].toString())
-          : null,
-      isDefault: json['is_default'] ?? false,
-      fullAddress: json['full_address'],
-      createdAt: json['created_at'] != null
-          ? DateTime.tryParse(json['created_at'])
-          : null,
-    );
+  factory AddressModel.fromJson(Map<String, dynamic> json) {
+    print('🔵 Parsing address JSON: $json');
+
+    try {
+      final address = AddressModel(
+        id: json['id'],
+        addressType: json['address_type'] ?? 'home',
+        addressLine1: json['address_line1'] ?? '',
+        addressLine2: json['address_line2'],
+        landmark: json['landmark'],
+        city: json['city'] ?? '',
+        state: json['state'] ?? '',
+        pincode: json['pincode'] ?? '',
+        latitude: (json['latitude'] is String)
+            ? double.parse(json['latitude'])
+            : (json['latitude']?.toDouble() ?? 0.0),
+        longitude: (json['longitude'] is String)
+            ? double.parse(json['longitude'])
+            : (json['longitude']?.toDouble() ?? 0.0),
+        isDefault: json['is_default'] ?? false,
+        createdAt: json['created_at'],
+      );
+
+      print(
+        '✅ Address parsed successfully: ${address.displayLabel} - ${address.city}',
+      );
+      return address;
+    } catch (e) {
+      print('❌ Error parsing address: $e');
+      print('❌ Raw JSON: $json');
+      rethrow;
+    }
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'address_type': addressType,
-      'address_line1': addressLine1,
-      if (addressLine2 != null) 'address_line2': addressLine2,
-      if (landmark != null) 'landmark': landmark,
-      'city': city,
-      'state': state,
-      'pincode': pincode,
-      if (latitude != null) 'latitude': latitude,
-      if (longitude != null) 'longitude': longitude,
-      'is_default': isDefault,
-    };
+  Map<String, dynamic> toJson() => {
+    'address_type': addressType,
+    'address_line1': addressLine1,
+    'address_line2': addressLine2,
+    'landmark': landmark,
+    'city': city,
+    'state': state,
+    'pincode': pincode,
+    'latitude': latitude,
+    'longitude': longitude,
+    'is_default': isDefault,
+  };
+
+  // Helper methods for UI display
+  String get fullAddress {
+    List<String> parts = [
+      addressLine1,
+      if (addressLine2?.isNotEmpty == true) addressLine2!,
+      if (landmark?.isNotEmpty == true) landmark!,
+      city,
+      state,
+      pincode,
+    ];
+    return parts.where((part) => part.isNotEmpty).join(', ');
   }
 
-  String getShortAddress() {
-    return '$addressLine1, $city';
-  }
-
-  String getAddressTypeLabel() {
+  String get displayLabel {
     switch (addressType) {
       case 'home':
         return 'Home';
@@ -81,39 +96,15 @@ class Address {
       case 'other':
         return 'Other';
       default:
-        return addressType;
+        return 'Address';
     }
   }
 
-  Address copyWith({
-    int? id,
-    String? addressType,
-    String? addressLine1,
-    String? addressLine2,
-    String? landmark,
-    String? city,
-    String? state,
-    String? pincode,
-    double? latitude,
-    double? longitude,
-    bool? isDefault,
-    String? fullAddress,
-    DateTime? createdAt,
-  }) {
-    return Address(
-      id: id ?? this.id,
-      addressType: addressType ?? this.addressType,
-      addressLine1: addressLine1 ?? this.addressLine1,
-      addressLine2: addressLine2 ?? this.addressLine2,
-      landmark: landmark ?? this.landmark,
-      city: city ?? this.city,
-      state: state ?? this.state,
-      pincode: pincode ?? this.pincode,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      isDefault: isDefault ?? this.isDefault,
-      fullAddress: fullAddress ?? this.fullAddress,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
+  // Compatibility methods for existing code
+  String getAddressTypeLabel() => displayLabel;
+  String getShortAddress() => fullAddress;
+
+  // Backwards compatibility
+  String get label => displayLabel;
+  String get addressLine => fullAddress;
 }

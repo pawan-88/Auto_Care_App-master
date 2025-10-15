@@ -12,7 +12,7 @@ class AddressSelectionScreen extends StatefulWidget {
 }
 
 class _AddressSelectionScreenState extends State<AddressSelectionScreen> {
-  List<Address> _addresses = [];
+  List<AddressModel> _addresses = [];
   bool _isLoading = true;
 
   @override
@@ -84,7 +84,7 @@ class _AddressSelectionScreenState extends State<AddressSelectionScreen> {
     );
   }
 
-  Widget _buildAddressCard(Address address) {
+  Widget _buildAddressCard(AddressModel address) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: InkWell(

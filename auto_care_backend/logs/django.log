@@ -442,3 +442,1237 @@
 [WARNING] 2025-10-13 18:14:37,031 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
 [WARNING] 2025-10-13 18:14:38,729 django.request Bad Request: /api/locations/addresses/
 [WARNING] 2025-10-13 18:14:38,828 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[INFO] 2025-10-13 20:49:54,707 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-13 20:51:06,625 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 20:51:06,645 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-13 20:51:06,853 apps.accounts.api.views OTP generated for 9112666031: 032005
+[INFO] 2025-10-13 20:51:06,856 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-13 20:51:17,812 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 20:51:17,981 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-13 20:51:17,983 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-13 20:51:18,252 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 20:51:18,341 apps.bookings.api.views Bookings listed for user 9112666031: 0 bookings
+[INFO] 2025-10-13 20:51:18,346 django.server "GET /api/bookings/ HTTP/1.1" 200 25
+[WARNING] 2025-10-13 20:57:09,832 django.request Unauthorized: /api/accounts/profile/
+[WARNING] 2025-10-13 20:57:09,840 django.request Unauthorized: /api/bookings/
+[WARNING] 2025-10-13 20:57:09,875 django.server "GET /api/bookings/ HTTP/1.1" 401 172
+[WARNING] 2025-10-13 20:57:09,879 django.server "GET /api/accounts/profile/ HTTP/1.1" 401 172
+[ERROR] 2025-10-13 20:57:15,440 django.request Internal Server Error: /api/accounts/token/refresh/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework_simplejwt\views.py", line 46, in post
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 116, in validate
+    user := get_user_model().objects.get(
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        **{api_settings.USER_ID_FIELD: user_id}
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 633, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+apps.accounts.models.User.DoesNotExist: User matching query does not exist.
+[ERROR] 2025-10-13 20:57:15,448 django.request Internal Server Error: /api/accounts/token/refresh/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework_simplejwt\views.py", line 46, in post
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 116, in validate
+    user := get_user_model().objects.get(
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        **{api_settings.USER_ID_FIELD: user_id}
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 633, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+apps.accounts.models.User.DoesNotExist: User matching query does not exist.
+[INFO] 2025-10-13 20:57:15,535 django.server - Broken pipe from ('10.219.56.214', 60361)
+[INFO] 2025-10-13 20:57:15,539 django.server - Broken pipe from ('10.219.56.214', 60360)
+[INFO] 2025-10-13 20:59:25,834 django.utils.autoreload Watching for file changes with StatReloader
+[WARNING] 2025-10-13 21:03:35,320 django.request Unauthorized: /api/bookings/
+[WARNING] 2025-10-13 21:03:35,298 django.request Unauthorized: /api/accounts/profile/
+[WARNING] 2025-10-13 21:03:35,359 django.server "GET /api/bookings/ HTTP/1.1" 401 172
+[WARNING] 2025-10-13 21:03:35,361 django.server "GET /api/accounts/profile/ HTTP/1.1" 401 172
+[ERROR] 2025-10-13 21:03:37,011 django.request Internal Server Error: /api/accounts/token/refresh/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework_simplejwt\views.py", line 46, in post
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 116, in validate
+    user := get_user_model().objects.get(
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        **{api_settings.USER_ID_FIELD: user_id}
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 633, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+apps.accounts.models.User.DoesNotExist: User matching query does not exist.
+[ERROR] 2025-10-13 21:03:37,071 django.request Internal Server Error: /api/accounts/token/refresh/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework_simplejwt\views.py", line 46, in post
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 116, in validate
+    user := get_user_model().objects.get(
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        **{api_settings.USER_ID_FIELD: user_id}
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 633, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+apps.accounts.models.User.DoesNotExist: User matching query does not exist.
+[ERROR] 2025-10-13 21:03:37,081 django.server "POST /api/accounts/token/refresh/ HTTP/1.1" 500 122680
+[ERROR] 2025-10-13 21:03:37,092 django.server "POST /api/accounts/token/refresh/ HTTP/1.1" 500 122680
+[INFO] 2025-10-13 21:06:06,323 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-13 21:08:01,709 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 21:08:01,736 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-13 21:08:01,983 apps.accounts.api.views New user created: 8999513014
+[INFO] 2025-10-13 21:08:01,999 apps.accounts.api.views OTP generated for 8999513014: 007468
+[INFO] 2025-10-13 21:08:02,041 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-13 21:08:13,472 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 21:08:13,651 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-13 21:08:13,653 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-13 21:08:13,932 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 21:08:14,034 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-13 21:08:14,040 django.server "GET /api/bookings/ HTTP/1.1" 200 25
+[INFO] 2025-10-13 21:08:29,508 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 21:08:29,714 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[WARNING] 2025-10-13 21:08:48,061 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 21:08:48,064 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[INFO] 2025-10-13 21:21:43,935 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-13 21:34:31,787 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 21:34:34,205 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-13 21:34:35,352 apps.accounts.api.views OTP generated for 9112666031: 420508
+[INFO] 2025-10-13 21:34:35,386 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-13 21:34:49,745 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 21:34:51,229 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-13 21:34:51,238 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-13 21:34:51,741 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 21:34:51,985 apps.bookings.api.views Bookings listed for user 9112666031: 0 bookings
+[INFO] 2025-10-13 21:34:52,013 django.server "GET /api/bookings/ HTTP/1.1" 200 25
+[INFO] 2025-10-13 21:35:04,486 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 21:35:04,721 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-13 21:35:12,469 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[WARNING] 2025-10-13 21:35:45,201 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-13 21:35:45,206 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 123
+[WARNING] 2025-10-13 22:53:03,031 django.request Not Found: /
+[WARNING] 2025-10-13 22:53:03,038 django.server "GET / HTTP/1.1" 404 2633
+[WARNING] 2025-10-13 22:53:22,464 django.request Not Found: /
+[INFO] 2025-10-13 22:53:22,468 django.server - Broken pipe from ('10.219.56.214', 52027)
+[WARNING] 2025-10-13 22:53:22,478 django.request Not Found: /loginMsg.js
+[WARNING] 2025-10-13 22:53:22,480 django.server "GET /loginMsg.js HTTP/1.1" 404 2679
+[WARNING] 2025-10-13 22:53:22,492 django.request Not Found: /cgi/get.cgi
+[WARNING] 2025-10-13 22:53:22,495 django.server "GET /cgi/get.cgi?cmd=home_login HTTP/1.1" 404 2694
+[INFO] 2025-10-13 23:16:09,422 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-13 23:22:11,096 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 23:22:11,183 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-13 23:22:11,429 apps.accounts.api.views OTP generated for 9112666031: 581621
+[INFO] 2025-10-13 23:22:11,431 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-13 23:22:24,375 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 23:22:24,592 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-13 23:22:24,593 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-13 23:22:24,900 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 23:22:25,018 apps.bookings.api.views Bookings listed for user 9112666031: 0 bookings
+[INFO] 2025-10-13 23:22:25,030 django.server "GET /api/bookings/ HTTP/1.1" 200 25
+[INFO] 2025-10-13 23:22:36,708 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-13 23:22:36,877 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-13 23:26:46,207 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-13 23:26:54,189 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-14 08:56:06,951 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 09:05:30,740 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:04:30,264 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:07:13,907 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:07:14,129 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 12:07:14,341 apps.accounts.api.views New user created: 8999513014
+[INFO] 2025-10-14 12:07:14,347 apps.accounts.api.views OTP generated for 8999513014: 801550
+[INFO] 2025-10-14 12:07:14,350 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 12:07:23,830 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:07:24,152 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-14 12:07:24,154 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 12:07:24,570 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:07:24,698 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-14 12:07:24,707 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 12:07:33,989 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:07:34,103 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[WARNING] 2025-10-14 12:07:45,967 django.request Bad Request: /api/locations/addresses/
+[WARNING] 2025-10-14 12:07:45,968 django.server "POST /api/locations/addresses/ HTTP/1.1" 400 80
+[INFO] 2025-10-14 12:12:05,288 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\locations\models.py changed, reloading.
+[INFO] 2025-10-14 12:12:07,212 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:12:41,005 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\locations\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 12:12:42,016 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:13:21,024 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\locations\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 12:13:22,829 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:13:28,742 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\locations\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 12:13:29,743 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:13:33,783 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\locations\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 12:13:35,163 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:13:45,469 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\locations\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 12:13:47,186 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:16:27,439 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:18:04,019 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:18:04,039 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 12:18:04,301 apps.accounts.api.views OTP generated for 8999513014: 527547
+[INFO] 2025-10-14 12:18:04,346 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 12:18:16,926 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:18:17,084 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-14 12:18:17,086 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 12:18:17,420 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:18:17,516 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-14 12:18:17,521 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 12:18:24,339 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:18:24,557 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-14 12:18:35,703 django.server "POST /api/locations/addresses/ HTTP/1.1" 201 242
+[INFO] 2025-10-14 12:18:35,850 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 294
+[INFO] 2025-10-14 12:18:42,251 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 294
+[INFO] 2025-10-14 12:19:52,677 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 294
+[INFO] 2025-10-14 12:38:47,838 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:39:43,590 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:39:43,655 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 12:39:43,932 apps.accounts.api.views OTP generated for 8999513014: 042631
+[INFO] 2025-10-14 12:39:43,937 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 12:39:54,722 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:39:54,977 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-14 12:39:54,979 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 12:39:55,243 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:39:55,382 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-14 12:39:55,392 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 12:40:00,635 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:40:00,770 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 294
+[INFO] 2025-10-14 12:40:15,966 django.server "POST /api/locations/addresses/ HTTP/1.1" 201 244
+[INFO] 2025-10-14 12:40:16,190 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 540
+[INFO] 2025-10-14 12:40:23,479 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 540
+[INFO] 2025-10-14 12:40:40,690 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 540
+[WARNING] 2025-10-14 12:44:54,345 django.request Unauthorized: /api/locations/addresses/
+[WARNING] 2025-10-14 12:44:54,361 django.server "GET /api/locations/addresses/ HTTP/1.1" 401 172
+[INFO] 2025-10-14 12:44:55,617 django.server "POST /api/accounts/token/refresh/ HTTP/1.1" 200 489
+[INFO] 2025-10-14 12:44:56,691 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 540
+[INFO] 2025-10-14 12:55:44,470 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 12:57:08,334 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:57:08,742 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 12:57:10,194 apps.accounts.api.views OTP generated for 8999513014: 535618
+[INFO] 2025-10-14 12:57:10,402 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 12:57:18,154 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:57:19,183 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-14 12:57:19,189 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 12:57:19,694 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:57:19,960 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-14 12:57:19,987 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 12:57:26,732 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 12:57:27,189 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 540
+[INFO] 2025-10-14 12:57:45,618 django.server "POST /api/locations/addresses/ HTTP/1.1" 201 243
+[INFO] 2025-10-14 12:57:46,490 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 785
+[INFO] 2025-10-14 12:58:06,948 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 785
+[INFO] 2025-10-14 13:00:25,599 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-14 13:00:25,657 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 60
+[INFO] 2025-10-14 13:00:25,675 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-14 13:00:25,682 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 13:00:40,065 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 785
+[INFO] 2025-10-14 14:58:16,208 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 15:07:26,631 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:07:26,760 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 15:07:27,726 apps.accounts.api.views OTP generated for 8999513014: 638743
+[INFO] 2025-10-14 15:07:27,743 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 15:07:46,865 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:07:47,256 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-14 15:07:47,260 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 15:07:47,670 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:07:47,867 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-14 15:07:47,905 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 15:07:54,523 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:07:54,780 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 785
+[INFO] 2025-10-14 15:08:21,333 django.server "POST /api/locations/addresses/ HTTP/1.1" 201 257
+[INFO] 2025-10-14 15:08:21,686 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[INFO] 2025-10-14 15:21:35,105 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 15:37:06,578 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:37:06,710 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 15:37:07,176 apps.accounts.api.views OTP generated for 8999513014: 048187
+[INFO] 2025-10-14 15:37:07,184 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 15:37:20,037 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:37:20,349 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-14 15:37:20,354 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 15:37:20,752 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:37:21,194 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-14 15:37:21,208 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 15:37:27,933 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:37:28,154 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[INFO] 2025-10-14 15:37:33,067 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[INFO] 2025-10-14 15:37:39,134 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[WARNING] 2025-10-14 15:37:53,757 apps.bookings.api.views Booking creation failed for 8999513014: {'service_address': [ErrorDetail(string='This field is required.', code='required')]}
+[WARNING] 2025-10-14 15:37:53,771 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-14 15:37:53,777 django.server "POST /api/bookings/ HTTP/1.1" 400 47
+[WARNING] 2025-10-14 15:38:11,558 apps.bookings.api.views Booking creation failed for 8999513014: {'service_address': [ErrorDetail(string='This field is required.', code='required')]}
+[WARNING] 2025-10-14 15:38:11,561 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-14 15:38:11,571 django.server "POST /api/bookings/ HTTP/1.1" 400 47
+[INFO] 2025-10-14 15:38:16,749 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[WARNING] 2025-10-14 15:38:19,432 apps.bookings.api.views Booking creation failed for 8999513014: {'service_address': [ErrorDetail(string='This field is required.', code='required')]}
+[WARNING] 2025-10-14 15:38:19,436 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-14 15:38:19,438 django.server "POST /api/bookings/ HTTP/1.1" 400 47
+[INFO] 2025-10-14 15:38:21,424 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[WARNING] 2025-10-14 15:38:23,810 apps.bookings.api.views Booking creation failed for 8999513014: {'service_address': [ErrorDetail(string='This field is required.', code='required')]}
+[WARNING] 2025-10-14 15:38:23,818 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-14 15:38:23,824 django.server "POST /api/bookings/ HTTP/1.1" 400 47
+[INFO] 2025-10-14 15:56:20,507 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 15:57:15,944 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:57:15,958 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 15:57:16,145 apps.accounts.api.views OTP generated for 8999513014: 880137
+[INFO] 2025-10-14 15:57:16,147 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 15:57:23,644 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:57:23,934 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-14 15:57:23,945 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 15:57:24,220 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:57:24,312 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-14 15:57:24,315 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 15:57:32,599 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 15:57:32,699 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[INFO] 2025-10-14 15:57:44,073 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[INFO] 2025-10-14 15:57:45,364 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[INFO] 2025-10-14 16:01:32,405 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 16:05:39,998 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 16:05:40,010 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 16:05:40,175 apps.accounts.api.views OTP generated for 8999513014: 640912
+[INFO] 2025-10-14 16:05:40,178 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 16:05:53,514 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 16:05:53,707 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-14 16:05:53,710 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 16:05:54,009 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 16:05:54,100 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-14 16:05:54,107 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 16:06:00,618 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 16:06:00,770 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[INFO] 2025-10-14 16:06:14,923 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[WARNING] 2025-10-14 16:06:15,109 apps.bookings.api.views Booking creation failed for 8999513014: {'location': [ErrorDetail(string='GPS coordinates (latitude and longitude) are required.', code='invalid')]}
+[WARNING] 2025-10-14 16:06:15,115 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-14 16:06:15,120 django.server "POST /api/bookings/ HTTP/1.1" 400 71
+[INFO] 2025-10-14 17:46:36,777 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 17:50:20,886 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 17:52:48,600 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 17:52:48,853 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 17:52:49,877 apps.accounts.api.views New user created: 9112666031
+[INFO] 2025-10-14 17:52:49,916 apps.accounts.api.views OTP generated for 9112666031: 047689
+[INFO] 2025-10-14 17:52:49,966 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 17:52:58,347 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 17:53:00,312 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-14 17:53:00,339 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 17:53:00,794 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 17:53:01,103 apps.bookings.api.views Bookings listed for user 9112666031: 0 bookings
+[INFO] 2025-10-14 17:53:01,129 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 17:53:09,587 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 17:53:11,770 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-14 17:53:38,577 django.server "POST /api/locations/addresses/ HTTP/1.1" 201 263
+[INFO] 2025-10-14 17:53:40,502 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 315
+[INFO] 2025-10-14 17:53:57,066 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 315
+[WARNING] 2025-10-14 17:53:58,231 apps.bookings.api.views Booking creation failed for 9112666031: {'location': [ErrorDetail(string='GPS coordinates (latitude and longitude) are required.', code='invalid')]}
+[WARNING] 2025-10-14 17:53:58,474 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-14 17:53:58,525 django.server "POST /api/bookings/ HTTP/1.1" 400 71
+[WARNING] 2025-10-14 21:05:36,637 django.request Not Found: /
+[WARNING] 2025-10-14 21:05:36,644 django.server "GET / HTTP/1.1" 404 2633
+[WARNING] 2025-10-14 21:05:58,297 django.request Not Found: /
+[INFO] 2025-10-14 21:05:58,300 django.server - Broken pipe from ('10.219.56.214', 61233)
+[WARNING] 2025-10-14 21:05:58,311 django.request Not Found: /loginMsg.js
+[WARNING] 2025-10-14 21:05:58,312 django.server "GET /loginMsg.js HTTP/1.1" 404 2679
+[WARNING] 2025-10-14 21:05:58,320 django.request Not Found: /cgi/get.cgi
+[WARNING] 2025-10-14 21:05:58,321 django.server "GET /cgi/get.cgi?cmd=home_login HTTP/1.1" 404 2694
+[INFO] 2025-10-14 21:11:33,855 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\locations\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 21:11:36,547 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:13:20,259 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 21:13:22,157 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:13:37,932 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\accounts\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 21:13:38,933 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:14:13,216 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:17:55,889 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\locations\api\views.py changed, reloading.
+[INFO] 2025-10-14 21:17:59,687 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:19:08,759 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\accounts\api\views.py changed, reloading.
+[INFO] 2025-10-14 21:19:11,919 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:19:21,087 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\accounts\api\views.py changed, reloading.
+[INFO] 2025-10-14 21:19:23,170 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:20:10,609 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\accounts\api\views.py changed, reloading.
+[INFO] 2025-10-14 21:20:11,727 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:20:29,579 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:34:11,026 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:35:27,067 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 21:35:27,096 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 21:35:27,503 apps.accounts.api.views OTP generated for 9112666031: 511955
+[INFO] 2025-10-14 21:35:27,513 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 21:35:37,772 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 21:35:38,093 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-14 21:35:38,097 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 21:35:38,443 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 21:35:38,564 apps.bookings.api.views Bookings listed for user 9112666031: 0 bookings
+[INFO] 2025-10-14 21:35:38,569 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 21:35:49,631 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[ERROR] 2025-10-14 21:35:49,909 django.request Internal Server Error: /api/locations/addresses/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\generics.py", line 243, in get
+    return self.list(request, *args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 525, in to_representation
+    for field in fields:
+                 ^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 386, in _readable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 374, in fields
+    for key, value in self.get_fields().items():
+                      ~~~~~~~~~~~~~~~^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1105, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ~~~~~~~~~~~~~~~~^
+        source, info, model, depth
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1251, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1369, in build_unknown_field
+    raise ImproperlyConfigured(
+    ...<2 lines>...
+    )
+django.core.exceptions.ImproperlyConfigured: Field name `updated_at` is not valid for model `Address` in `apps.locations.api.serializers.AddressSerializer`.
+[ERROR] 2025-10-14 21:35:49,933 django.server "GET /api/locations/addresses/ HTTP/1.1" 500 158799
+[ERROR] 2025-10-14 21:36:12,223 django.request Internal Server Error: /api/locations/addresses/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\generics.py", line 246, in post
+    return self.create(request, *args, **kwargs)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 444, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 497, in to_internal_value
+    for field in fields:
+                 ^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 380, in _writable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 374, in fields
+    for key, value in self.get_fields().items():
+                      ~~~~~~~~~~~~~~~^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1105, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ~~~~~~~~~~~~~~~~^
+        source, info, model, depth
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1251, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1369, in build_unknown_field
+    raise ImproperlyConfigured(
+    ...<2 lines>...
+    )
+django.core.exceptions.ImproperlyConfigured: Field name `updated_at` is not valid for model `Address` in `apps.locations.api.serializers.AddressSerializer`.
+[ERROR] 2025-10-14 21:36:12,245 django.server "POST /api/locations/addresses/ HTTP/1.1" 500 155650
+[ERROR] 2025-10-14 21:36:18,895 django.request Internal Server Error: /api/locations/addresses/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\generics.py", line 246, in post
+    return self.create(request, *args, **kwargs)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\mixins.py", line 18, in create
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 444, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 497, in to_internal_value
+    for field in fields:
+                 ^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 380, in _writable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 374, in fields
+    for key, value in self.get_fields().items():
+                      ~~~~~~~~~~~~~~~^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1105, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ~~~~~~~~~~~~~~~~^
+        source, info, model, depth
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1251, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1369, in build_unknown_field
+    raise ImproperlyConfigured(
+    ...<2 lines>...
+    )
+django.core.exceptions.ImproperlyConfigured: Field name `updated_at` is not valid for model `Address` in `apps.locations.api.serializers.AddressSerializer`.
+[ERROR] 2025-10-14 21:36:18,900 django.server "POST /api/locations/addresses/ HTTP/1.1" 500 155650
+[INFO] 2025-10-14 21:45:24,902 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:47:18,516 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 21:47:21,901 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 21:47:21,988 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 21:47:22,220 apps.accounts.api.views OTP generated for 9112666031: 179878
+[INFO] 2025-10-14 21:47:22,222 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 21:47:30,338 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 21:47:30,621 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-14 21:47:30,675 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 21:47:31,049 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 21:47:31,174 apps.bookings.api.views Bookings listed for user 9112666031: 0 bookings
+[INFO] 2025-10-14 21:47:31,182 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 21:47:38,574 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 21:47:38,687 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 315
+[INFO] 2025-10-14 21:47:47,679 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 315
+[WARNING] 2025-10-14 21:47:47,833 apps.bookings.api.views Booking creation failed for 9112666031: {'location': [ErrorDetail(string='GPS coordinates (latitude and longitude) are required.', code='invalid')]}
+[WARNING] 2025-10-14 21:47:47,844 django.request Bad Request: /api/bookings/
+[WARNING] 2025-10-14 21:47:47,845 django.server "POST /api/bookings/ HTTP/1.1" 400 71
+[INFO] 2025-10-14 22:18:59,022 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\bookings\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 22:19:01,548 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 22:19:19,510 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 22:20:29,422 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 22:20:29,473 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 22:20:29,804 apps.accounts.api.views OTP generated for 9112666031: 359857
+[INFO] 2025-10-14 22:20:29,814 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 22:20:41,333 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 22:20:41,536 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-14 22:20:41,538 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 22:20:41,980 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 22:20:42,170 apps.bookings.api.views Bookings listed for user 9112666031: 0 bookings
+[INFO] 2025-10-14 22:20:42,177 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 22:20:46,760 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 22:20:46,863 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 315
+[INFO] 2025-10-14 22:20:57,284 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 315
+[ERROR] 2025-10-14 22:20:57,583 django.request Internal Server Error: /api/bookings/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\bookings\api\views.py", line 30, in post
+    booking = serializer.save(user=request.user)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\bookings\api\serializers.py", line 163, in create
+    booking = Booking.objects.create(user=user, **validated_data)
+TypeError: django.db.models.query.QuerySet.create() got multiple values for keyword argument 'user'
+[ERROR] 2025-10-14 22:20:57,595 django.server "POST /api/bookings/ HTTP/1.1" 500 116750
+[INFO] 2025-10-14 22:54:59,844 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\bookings\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 22:55:03,133 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 22:55:55,704 django.utils.autoreload C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\bookings\api\serializers.py changed, reloading.
+[INFO] 2025-10-14 22:55:56,803 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 22:56:12,508 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-14 22:57:20,799 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 22:57:20,812 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 22:57:21,001 apps.accounts.api.views OTP generated for 9112666031: 462721
+[INFO] 2025-10-14 22:57:21,003 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 22:57:29,511 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 22:57:29,714 apps.accounts.api.views Successful login for 9112666031 (New user: False)
+[INFO] 2025-10-14 22:57:29,717 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 22:57:29,996 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 22:57:30,111 apps.bookings.api.views Bookings listed for user 9112666031: 0 bookings
+[INFO] 2025-10-14 22:57:30,116 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 22:57:37,951 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 22:57:38,051 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 315
+[INFO] 2025-10-14 22:57:49,175 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 315
+[WARNING] 2025-10-14 22:57:49,379 apps.bookings.models Booking None created outside service area: None, None
+[INFO] 2025-10-14 22:57:49,405 apps.bookings.api.views Booking created: 1 for user 9112666031
+[INFO] 2025-10-14 22:57:49,414 django.server "POST /api/bookings/ HTTP/1.1" 201 365
+[INFO] 2025-10-14 22:58:17,484 django.server "OPTIONS /api/accounts/profile/ HTTP/1.1" 200 0
+[INFO] 2025-10-14 22:58:17,977 apps.bookings.api.views Bookings listed for user 9112666031: 1 bookings
+[INFO] 2025-10-14 22:58:18,032 django.server "GET /api/bookings/ HTTP/1.1" 200 367
+[INFO] 2025-10-14 22:58:18,073 apps.accounts.api.views Profile fetched for 9112666031
+[INFO] 2025-10-14 22:58:18,141 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 60
+[INFO] 2025-10-14 22:58:18,318 apps.bookings.api.views Bookings listed for user 9112666031: 1 bookings
+[INFO] 2025-10-14 22:58:18,330 django.server "GET /api/bookings/ HTTP/1.1" 200 367
+[INFO] 2025-10-14 22:59:07,740 apps.bookings.api.views Bookings listed for user 9112666031: 1 bookings
+[INFO] 2025-10-14 22:59:07,747 django.server "GET /api/bookings/ HTTP/1.1" 200 367
+[INFO] 2025-10-14 22:59:12,256 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 315
+[INFO] 2025-10-14 22:59:31,822 django.server "OPTIONS /api/auth/logout/ HTTP/1.1" 200 0
+[WARNING] 2025-10-14 22:59:31,883 django.request Not Found: /api/auth/logout/
+[WARNING] 2025-10-14 22:59:31,885 django.server "POST /api/auth/logout/ HTTP/1.1" 404 2700
+[INFO] 2025-10-14 22:59:40,258 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 22:59:40,404 apps.accounts.api.views OTP generated for 8999513014: 645915
+[INFO] 2025-10-14 22:59:40,408 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 22:59:50,841 apps.accounts.api.views Successful login for 8999513014 (New user: False)
+[INFO] 2025-10-14 22:59:50,843 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 22:59:51,104 apps.bookings.api.views Bookings listed for user 8999513014: 0 bookings
+[INFO] 2025-10-14 22:59:51,106 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 23:00:03,241 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[INFO] 2025-10-14 23:00:13,037 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 1044
+[WARNING] 2025-10-14 23:00:13,205 apps.bookings.models Booking None created outside service area: None, None
+[INFO] 2025-10-14 23:00:13,211 apps.bookings.api.views Booking created: 2 for user 8999513014
+[INFO] 2025-10-14 23:00:13,217 django.server "POST /api/bookings/ HTTP/1.1" 201 364
+[INFO] 2025-10-14 23:00:21,655 apps.bookings.api.views Bookings listed for user 8999513014: 1 bookings
+[INFO] 2025-10-14 23:00:21,657 apps.accounts.api.views Profile fetched for 8999513014
+[INFO] 2025-10-14 23:00:21,660 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 60
+[INFO] 2025-10-14 23:00:21,663 django.server "GET /api/bookings/ HTTP/1.1" 200 366
+[INFO] 2025-10-14 23:00:21,775 apps.bookings.api.views Bookings listed for user 8999513014: 1 bookings
+[INFO] 2025-10-14 23:00:21,781 django.server "GET /api/bookings/ HTTP/1.1" 200 366
+[WARNING] 2025-10-14 23:00:36,660 django.request Not Found: /api/auth/logout/
+[WARNING] 2025-10-14 23:00:36,664 django.server "POST /api/auth/logout/ HTTP/1.1" 404 2700
+[INFO] 2025-10-14 23:01:01,731 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-14 23:01:01,833 apps.accounts.api.views OTP generated for 9168238418: 177483
+[INFO] 2025-10-14 23:01:01,835 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-14 23:01:09,753 apps.accounts.api.views Successful login for 9168238418 (New user: False)
+[INFO] 2025-10-14 23:01:09,756 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-14 23:01:10,027 apps.bookings.api.views Bookings listed for user 9168238418: 0 bookings
+[INFO] 2025-10-14 23:01:10,030 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-14 23:21:56,553 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-14 23:22:25,858 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-15 15:17:02,593 django.utils.autoreload Watching for file changes with StatReloader
+[WARNING] 2025-10-15 15:38:30,408 django.request Not Found: /
+[WARNING] 2025-10-15 15:38:30,430 django.server "GET / HTTP/1.1" 404 2632
+[WARNING] 2025-10-15 15:38:41,058 django.request Not Found: /
+[INFO] 2025-10-15 15:38:41,066 django.server - Broken pipe from ('192.168.1.46', 52686)
+[WARNING] 2025-10-15 15:38:41,073 django.request Not Found: /loginMsg.js
+[WARNING] 2025-10-15 15:38:41,075 django.server "GET /loginMsg.js HTTP/1.1" 404 2678
+[WARNING] 2025-10-15 15:38:41,085 django.request Not Found: /cgi/get.cgi
+[WARNING] 2025-10-15 15:38:41,086 django.server "GET /cgi/get.cgi?cmd=home_login HTTP/1.1" 404 2693
+[INFO] 2025-10-15 19:47:36,293 django.utils.autoreload Watching for file changes with StatReloader
+[WARNING] 2025-10-15 19:48:11,537 django.request Not Found: /
+[WARNING] 2025-10-15 19:48:11,548 django.server "GET / HTTP/1.1" 404 2633
+[WARNING] 2025-10-15 19:48:28,282 django.request Not Found: /
+[INFO] 2025-10-15 19:48:28,301 django.server - Broken pipe from ('10.219.56.214', 57101)
+[WARNING] 2025-10-15 19:48:28,334 django.request Not Found: /loginMsg.js
+[WARNING] 2025-10-15 19:48:28,335 django.server "GET /loginMsg.js HTTP/1.1" 404 2679
+[WARNING] 2025-10-15 19:48:28,358 django.request Not Found: /cgi/get.cgi
+[WARNING] 2025-10-15 19:48:28,363 django.server "GET /cgi/get.cgi?cmd=home_login HTTP/1.1" 404 2694
+[INFO] 2025-10-15 19:51:47,078 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 19:51:47,145 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-15 19:51:47,669 apps.accounts.api.views New user created: 9921235894
+[INFO] 2025-10-15 19:51:47,682 apps.accounts.api.views OTP generated for 9921235894: 870862
+[INFO] 2025-10-15 19:51:47,725 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-15 19:52:02,130 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 19:52:02,840 apps.accounts.api.views Successful login for 9921235894 (New user: False)
+[INFO] 2025-10-15 19:52:02,841 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-15 19:52:03,325 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 19:52:03,451 apps.bookings.api.views Bookings listed for user 9921235894: 0 bookings
+[INFO] 2025-10-15 19:52:03,459 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-15 19:52:22,647 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 19:52:22,737 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-15 19:52:56,076 django.server "POST /api/locations/addresses/ HTTP/1.1" 201 270
+[INFO] 2025-10-15 19:52:56,223 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 322
+[INFO] 2025-10-15 19:53:15,857 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 322
+[WARNING] 2025-10-15 19:53:16,215 apps.bookings.models Booking None created outside service area: None, None
+[INFO] 2025-10-15 19:53:16,231 apps.bookings.api.views Booking created: 3 for user 9921235894
+[INFO] 2025-10-15 19:53:16,246 django.server "POST /api/bookings/ HTTP/1.1" 201 368
+[INFO] 2025-10-15 19:54:02,388 django.server "OPTIONS /api/accounts/profile/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 19:54:02,770 apps.accounts.api.views Profile fetched for 9921235894
+[INFO] 2025-10-15 19:54:02,803 apps.bookings.api.views Bookings listed for user 9921235894: 1 bookings
+[INFO] 2025-10-15 19:54:02,836 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 60
+[INFO] 2025-10-15 19:54:02,843 django.server "GET /api/bookings/ HTTP/1.1" 200 370
+[INFO] 2025-10-15 19:54:03,004 apps.bookings.api.views Bookings listed for user 9921235894: 1 bookings
+[INFO] 2025-10-15 19:54:03,015 django.server "GET /api/bookings/ HTTP/1.1" 200 370
+[INFO] 2025-10-15 19:54:44,704 apps.bookings.api.views Bookings listed for user 9921235894: 1 bookings
+[INFO] 2025-10-15 19:54:44,717 django.server "GET /api/bookings/ HTTP/1.1" 200 370
+[INFO] 2025-10-15 19:54:59,334 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 322
+[INFO] 2025-10-15 19:55:02,011 apps.bookings.api.views Bookings listed for user 9921235894: 1 bookings
+[INFO] 2025-10-15 19:55:02,019 django.server "GET /api/bookings/ HTTP/1.1" 200 370
+[INFO] 2025-10-15 19:55:08,220 apps.accounts.api.views Profile fetched for 9921235894
+[INFO] 2025-10-15 19:55:08,222 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 60
+[INFO] 2025-10-15 19:56:02,813 apps.accounts.api.views Profile updated for 9921235894
+[INFO] 2025-10-15 19:56:02,816 django.server "PUT /api/accounts/profile/ HTTP/1.1" 200 90
+[INFO] 2025-10-15 19:56:02,949 apps.accounts.api.views Profile fetched for 9921235894
+[INFO] 2025-10-15 19:56:02,950 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 90
+[INFO] 2025-10-15 19:57:46,074 apps.bookings.api.views Bookings listed for user 9921235894: 1 bookings
+[INFO] 2025-10-15 19:57:46,075 apps.accounts.api.views Profile fetched for 9921235894
+[INFO] 2025-10-15 19:57:46,083 django.server "GET /api/accounts/profile/ HTTP/1.1" 200 90
+[INFO] 2025-10-15 19:57:46,090 django.server "GET /api/bookings/ HTTP/1.1" 200 384
+[INFO] 2025-10-15 20:59:06,409 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-15 21:01:02,960 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:01:02,982 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-15 21:01:03,204 apps.accounts.api.views New user created: 912****4444
+[INFO] 2025-10-15 21:01:03,214 apps.accounts.api.views OTP: ******
+[INFO] 2025-10-15 21:01:03,219 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-15 21:01:16,408 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:01:16,555 apps.accounts.api.views Successful login for 912****4444 (New user: False)
+[INFO] 2025-10-15 21:01:16,556 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-15 21:01:17,085 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:01:17,204 apps.bookings.api.views Bookings listed for user 912****4444: 0 bookings
+[INFO] 2025-10-15 21:01:17,209 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-15 21:01:52,480 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:01:52,601 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-15 21:02:12,412 django.server "POST /api/locations/addresses/ HTTP/1.1" 201 249
+[INFO] 2025-10-15 21:02:12,569 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 301
+[INFO] 2025-10-15 21:02:28,286 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 301
+[ERROR] 2025-10-15 21:02:28,694 django.request Internal Server Error: /api/bookings/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\bookings\api\views.py", line 29, in post
+    if serializer.is_valid():
+       ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 444, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 497, in to_internal_value
+    for field in fields:
+                 ^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 380, in _writable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 374, in fields
+    for key, value in self.get_fields().items():
+                      ~~~~~~~~~~~~~~~^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1105, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ~~~~~~~~~~~~~~~~^
+        source, info, model, depth
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1251, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 1369, in build_unknown_field
+    raise ImproperlyConfigured(
+    ...<2 lines>...
+    )
+django.core.exceptions.ImproperlyConfigured: Field name `service_address` is not valid for model `Booking` in `apps.bookings.api.serializers.BookingSerializer`.
+[ERROR] 2025-10-15 21:02:28,718 django.server "POST /api/bookings/ HTTP/1.1" 500 151510
+[INFO] 2025-10-15 21:03:49,035 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-15 21:05:15,378 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:05:15,517 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-15 21:05:16,660 apps.accounts.api.views New user created: 9273728731
+[INFO] 2025-10-15 21:05:16,681 apps.accounts.api.views OTP generated for 9273728731: 978192
+[INFO] 2025-10-15 21:05:16,712 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-15 21:05:31,260 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:05:31,450 apps.accounts.api.views Successful login for 9273728731 (New user: False)
+[INFO] 2025-10-15 21:05:31,454 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-15 21:05:31,808 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:05:31,926 apps.bookings.api.views Bookings listed for user 9273728731: 0 bookings
+[ERROR] 2025-10-15 21:05:32,152 django.request Internal Server Error: /api/bookings/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column bookings_booking.service_address does not exist
+LINE 1: ...king"."latitude", "bookings_booking"."longitude", "bookings_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\bookings\api\views.py", line 24, in get
+    return Response(serializer.data if serializer.data else [], status=status.HTTP_200_OK)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column bookings_booking.service_address does not exist
+LINE 1: ...king"."latitude", "bookings_booking"."longitude", "bookings_...
+                                                             ^
+
+[ERROR] 2025-10-15 21:05:32,184 django.server "GET /api/bookings/ HTTP/1.1" 500 175005
+[INFO] 2025-10-15 21:19:14,441 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-15 21:21:15,272 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:21:15,462 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-15 21:21:16,207 apps.accounts.api.views New user created: 8999513012
+[INFO] 2025-10-15 21:21:16,254 apps.accounts.api.views OTP generated for 8999513012: 821841
+[INFO] 2025-10-15 21:21:16,310 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-15 21:21:24,312 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:21:24,615 apps.accounts.api.views Successful login for 8999513012 (New user: False)
+[INFO] 2025-10-15 21:21:24,618 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-15 21:21:25,084 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:21:25,298 apps.bookings.api.views Bookings listed for user 8999513012: 0 bookings
+[ERROR] 2025-10-15 21:21:25,594 django.request Internal Server Error: /api/bookings/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column bookings_booking.service_address does not exist
+LINE 1: ...king"."latitude", "bookings_booking"."longitude", "bookings_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\bookings\api\views.py", line 24, in get
+    return Response(serializer.data if serializer.data else [], status=status.HTTP_200_OK)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column bookings_booking.service_address does not exist
+LINE 1: ...king"."latitude", "bookings_booking"."longitude", "bookings_...
+                                                             ^
+
+[ERROR] 2025-10-15 21:21:25,645 django.server "GET /api/bookings/ HTTP/1.1" 500 175005
+[INFO] 2025-10-15 21:21:52,204 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 21:21:52,384 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-15 21:22:05,119 django.server "POST /api/locations/addresses/ HTTP/1.1" 201 239
+[INFO] 2025-10-15 21:22:05,388 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 291
+[INFO] 2025-10-15 21:22:15,692 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 291
+[WARNING] 2025-10-15 21:22:15,959 apps.bookings.models Booking None created outside service area: None, None
+[ERROR] 2025-10-15 21:22:16,159 django.request Internal Server Error: /api/bookings/
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column "service_address" of relation "bookings_booking" does not exist
+LINE 1: ..., "created_at", "notes", "latitude", "longitude", "service_a...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\bookings\api\views.py", line 30, in post
+    booking = serializer.save(user=request.user)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 991, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 663, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\Downloads\Auto_Care_App-master\Auto_Care_App-master\auto_care_backend\apps\bookings\models.py", line 147, in save
+    super().save(*args, **kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\2001k\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column "service_address" of relation "bookings_booking" does not exist
+LINE 1: ..., "created_at", "notes", "latitude", "longitude", "service_a...
+                                                             ^
+
+[ERROR] 2025-10-15 21:22:16,186 django.server "POST /api/bookings/ HTTP/1.1" 500 213375
+[INFO] 2025-10-15 22:21:35,591 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2025-10-15 22:22:56,923 django.server "OPTIONS /api/accounts/send-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 22:22:57,001 apps.accounts.api.views OTP request received from IP: 10.219.56.214
+[INFO] 2025-10-15 22:22:57,325 apps.accounts.api.views New user created: 8999513013
+[INFO] 2025-10-15 22:22:57,341 apps.accounts.api.views OTP generated for 8999513013: 126972
+[INFO] 2025-10-15 22:22:57,408 django.server "POST /api/accounts/send-otp/ HTTP/1.1" 200 64
+[INFO] 2025-10-15 22:23:06,349 django.server "OPTIONS /api/accounts/verify-otp/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 22:23:06,618 apps.accounts.api.views Successful login for 8999513013 (New user: False)
+[INFO] 2025-10-15 22:23:06,620 django.server "POST /api/accounts/verify-otp/ HTTP/1.1" 200 570
+[INFO] 2025-10-15 22:23:06,888 django.server "OPTIONS /api/bookings/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 22:23:06,978 apps.bookings.api.views Bookings listed for user 8999513013: 0 bookings
+[INFO] 2025-10-15 22:23:06,983 django.server "GET /api/bookings/ HTTP/1.1" 200 2
+[INFO] 2025-10-15 22:23:32,096 django.server "OPTIONS /api/locations/addresses/ HTTP/1.1" 200 0
+[INFO] 2025-10-15 22:23:32,201 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 52
+[INFO] 2025-10-15 22:23:45,562 django.server "POST /api/locations/addresses/ HTTP/1.1" 201 245
+[INFO] 2025-10-15 22:23:45,812 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 297
+[INFO] 2025-10-15 22:23:56,805 django.server "GET /api/locations/addresses/ HTTP/1.1" 200 297
+[INFO] 2025-10-15 22:23:56,978 apps.bookings.api.serializers Booking created: ID 1 for user 8999513013
+[INFO] 2025-10-15 22:23:56,978 apps.bookings.api.views Booking created: 1 for user 8999513013
+[INFO] 2025-10-15 22:23:56,980 django.server "POST /api/bookings/ HTTP/1.1" 201 381
+[INFO] 2025-10-15 23:01:28,509 django.utils.autoreload Watching for file changes with StatReloader

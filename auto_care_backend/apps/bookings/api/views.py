@@ -5,99 +5,33 @@ from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Q
 from ..models import Booking
 from .serializers import BookingSerializer
-from apps.locations.models import ServiceArea, Address
+from apps.locations.models import ServiceArea
 import logging
-from datetime import datetime, date
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
 class BookingListCreateView(APIView):
-    """Enhanced booking list/create with location support"""
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        """Get all bookings for logged-in user with location info"""
+        """Get all bookings for logged-in user"""
         bookings = Booking.objects.filter(user=request.user).order_by("-created_at")
-        
-        # Optional filtering by status
-        status_filter = request.query_params.get('status')
-        if status_filter:
-            bookings = bookings.filter(status=status_filter)
-        
-        # Optional filtering by date range
-        date_from = request.query_params.get('date_from')
-        date_to = request.query_params.get('date_to')
-        if date_from:
-            try:
-                date_from = datetime.strptime(date_from, '%Y-%m-%d').date()
-                bookings = bookings.filter(date__gte=date_from)
-            except ValueError:
-                pass
-        if date_to:
-            try:
-                date_to = datetime.strptime(date_to, '%Y-%m-%d').date()
-                bookings = bookings.filter(date__lte=date_to)
-            except ValueError:
-                pass
-        
         serializer = BookingSerializer(bookings, many=True)
-        
         logger.info(f"Bookings listed for user {request.user.mobile_number}: {bookings.count()} bookings")
         
-        return Response({
-            'count': bookings.count(),
-            'bookings': serializer.data
-        })
+        # CRITICAL: Always return a list, even if empty
+        return Response(serializer.data if serializer.data else [], status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        """Create new location-aware booking"""
-        # Log incoming request data for debugging
-        logger.info(f"Booking creation attempt by {request.user.mobile_number}: {request.data}")
-        
-        # Validate required location fields upfront
-        required_location_fields = ['latitude', 'longitude', 'service_address']
-        missing_fields = [field for field in required_location_fields if not request.data.get(field)]
-        
-        if missing_fields:
-            return Response(
-                {
-                    'error': f'Missing required location fields: {", ".join(missing_fields)}',
-                    'detail': 'Location information is required for all bookings.'
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        # Create serializer with request context for user validation
+        """Create new booking"""
         serializer = BookingSerializer(data=request.data, context={'request': request})
-        
         if serializer.is_valid():
-            try:
-                booking = serializer.save()
-                
-                logger.info(
-                    f"Location-aware booking created successfully: "
-                    f"ID {booking.id} at {booking.service_address} "
-                    f"({booking.latitude}, {booking.longitude}) "
-                    f"for user {request.user.mobile_number}"
-                )
-                
-                # Return enhanced response with location info
-                response_data = serializer.data
-                response_data['message'] = 'Booking created successfully'
-                
-                return Response(response_data, status=status.HTTP_201_CREATED)
-                
-            except Exception as e:
-                logger.error(f"Booking creation failed for {request.user.mobile_number}: {str(e)}")
-                return Response(
-                    {
-                        'error': 'Booking creation failed',
-                        'detail': 'Please try again or contact support.'
-                    },
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
-                )
+            booking = serializer.save(user=request.user)
+            logger.info(f"Booking created: {booking.id} for user {request.user.mobile_number}")
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            logger.warning(f"Booking creation validation failed for {request.user.mobile_number}: {serializer.errors}")
+            logger.warning(f"Booking creation failed for {request.user.mobile_number}: {serializer.errors}")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class BookingDetailView(APIView):

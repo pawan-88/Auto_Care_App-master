@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import SendOTPView, VerifyOTPView, UserProfileView, AddressListCreateView, AddressDetailView, SetDefaultAddressView
 from rest_framework_simplejwt.views import TokenRefreshView
+from apps.locations.api.serializers import AddressSerializer, ServiceAreaSerializer
+
 
 urlpatterns = [
 

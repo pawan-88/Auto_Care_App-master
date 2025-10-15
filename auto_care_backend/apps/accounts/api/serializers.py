@@ -1,9 +1,20 @@
 from datetime import date as date_type
 from rest_framework import serializers
-from apps.accounts.models import User
 from apps.bookings.models import Booking  # ✅ Import fixed (main issue)
-from apps.accounts.models import User
+from apps.accounts.models import User, Address
 
+
+class MobileSerializer(serializers.Serializer):
+    mobile_number = serializers.CharField(max_length=15)
+
+class VerifyOTPSerializer(serializers.Serializer):
+    mobile_number = serializers.CharField(max_length=15)
+    otp = serializers.CharField(max_length=6)
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['mobile_number', 'name', 'email', 'address', 'vehicle']
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """Serializer for user profile data (mobile, name, etc.)."""
@@ -82,35 +93,75 @@ class BookingSerializer(serializers.ModelSerializer):
     # -------------------
 # Address Serializers
 # -------------------
-# class AddressSerializer(serializers.ModelSerializer):
-#     full_address = serializers.CharField(source='get_full_address', read_only=True)
+class AddressSerializer(serializers.ModelSerializer):
+    full_address = serializers.CharField(source='get_full_address', read_only=True)
     
-#     class Meta:
-#         model = Address
-#         fields = [
-#             'id', 'address_type', 'address_line1', 'address_line2',
-#             'landmark', 'city', 'state', 'pincode',
-#             'latitude', 'longitude', 'is_default',
-#             'full_address', 'created_at', 'updated_at'
-#         ]
-#         read_only_fields = ['id', 'created_at', 'updated_at', 'full_address']
+    class Meta:
+        model = Address
+        fields = [
+            'id', 'address_type', 'address_line1', 'address_line2',
+            'landmark', 'city', 'state', 'pincode',
+            'latitude', 'longitude', 'is_default',
+            'full_address', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'full_address']
     
-#     def validate_pincode(self, value):
-#         """Validate pincode format"""
-#         if not value.isdigit():
-#             raise serializers.ValidationError("Pincode must contain only digits")
-#         if len(value) != 6:
-#             raise serializers.ValidationError("Pincode must be exactly 6 digits")
-#         return value
-    
-#     def validate(self, data):
-#         """Validate latitude and longitude if provided"""
-#         latitude = data.get('latitude')
-#         longitude = data.get('longitude')
+    def validate_pincode(self, value):
+        """Validate pincode format"""
+        # Remove any spaces or dashes
+        clean_pincode = str(value).replace(' ', '').replace('-', '')
         
-#         if (latitude is not None and longitude is None) or (latitude is None and longitude is not None):
-#             raise serializers.ValidationError(
-#                 "Both latitude and longitude must be provided together"
-#             )
+        if not clean_pincode.isdigit():
+            raise serializers.ValidationError("Pincode must contain only digits")
         
-#         return data
+        if len(clean_pincode) != 6:
+            raise serializers.ValidationError(f"Pincode must be exactly 6 digits, got {len(clean_pincode)}")
+        
+        return clean_pincode
+    
+    def validate_address_line1(self, value):
+        """Validate address line 1"""
+        if not value or not value.strip():
+            raise serializers.ValidationError("Address line 1 is required")
+        
+        if len(value.strip()) < 3:
+            raise serializers.ValidationError("Address line 1 must be at least 3 characters")
+        
+        return value.strip()
+    
+    def validate_city(self, value):
+        """Validate city"""
+        if not value or not value.strip():
+            raise serializers.ValidationError("City is required")
+        
+        if len(value.strip()) < 2:
+            raise serializers.ValidationError("City name must be at least 2 characters")
+        
+        return value.strip()
+    
+    def validate_state(self, value):
+        """Validate state"""
+        if not value or not value.strip():
+            raise serializers.ValidationError("State is required")
+        
+        if len(value.strip()) < 2:
+            raise serializers.ValidationError("State name must be at least 2 characters")
+        
+        return value.strip()
+    
+def validate(self, data):
+    """
+    Allow manual addresses without latitude/longitude.
+    If provided, ensure both latitude and longitude are present.
+    """
+    latitude = data.get('latitude')
+    longitude = data.get('longitude')
+
+    if latitude is not None and longitude is None:
+        raise serializers.ValidationError({"longitude": "Longitude is required if latitude is provided."})
+    if longitude is not None and latitude is None:
+        raise serializers.ValidationError({"latitude": "Latitude is required if longitude is provided."})
+
+    # ✅ If both are missing (manual entry), it’s fine
+    return data
+

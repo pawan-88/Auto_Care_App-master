@@ -15,7 +15,7 @@ class Booking(models.Model):
         ("cancelled", "Cancelled"),
     ]
 
-    # Existing fields
+    # Core fields
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     vehicle_type = models.CharField(max_length=10, choices=VEHICLE_CHOICES)
     date = models.DateField()
@@ -24,23 +24,26 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     notes = models.TextField(blank=True, null=True)
     
-    # 🆕 NEW LOCATION FIELDS FOR FRONTEND INTEGRATION
-    # GPS coordinates for service location
+    # Location fields (all optional to avoid migration issues)
     latitude = models.DecimalField(
         max_digits=9, 
-        decimal_places=6,  # ✅ Max 6 decimal places
+        decimal_places=6,
         null=True, 
-        blank=True
+        blank=True,
+        help_text="GPS latitude coordinate"
     )
     longitude = models.DecimalField(
         max_digits=9, 
-        decimal_places=6,  # ✅ Max 6 decimal places
+        decimal_places=6,
         null=True, 
-        blank=True
+        blank=True,
+        help_text="GPS longitude coordinate"
     )
     
-    # Human-readable address
+    # ✅ FIXED: Made optional to prevent migration errors
     service_address = models.TextField(
+        blank=True,  # ✅ Added blank=True
+        null=True,   # ✅ Added null=True
         help_text="Full address text for service location"
     )
     
@@ -58,7 +61,7 @@ class Booking(models.Model):
         indexes = [
             models.Index(fields=['user', 'date']),
             models.Index(fields=['status', 'created_at']),
-            models.Index(fields=['latitude', 'longitude']),  # 🆕 Location index
+            models.Index(fields=['latitude', 'longitude']),
         ]
 
     def __str__(self):
@@ -67,7 +70,6 @@ class Booking(models.Model):
     def can_cancel(self):
         """Check if booking can be cancelled"""
         from django.utils import timezone
-        from datetime import timedelta
         
         if self.status in ['completed', 'cancelled']:
             return False
@@ -87,12 +89,17 @@ class Booking(models.Model):
             return True
         return False
     
-    # 🆕 NEW LOCATION-RELATED METHODS
     def is_in_service_area(self):
         """Check if booking location is within any active service area"""
+        if not self.latitude or not self.longitude:
+            return True  # Allow if no coordinates
+            
         from apps.locations.models import ServiceArea
-        
         active_areas = ServiceArea.objects.filter(active=True)
+        
+        if not active_areas.exists():
+            return True  # Allow if no service areas defined
+            
         return any(
             area.contains(float(self.latitude), float(self.longitude)) 
             for area in active_areas
@@ -100,6 +107,9 @@ class Booking(models.Model):
     
     def distance_from_center(self):
         """Get distance from nearest service area center"""
+        if not self.latitude or not self.longitude:
+            return None
+            
         from apps.locations.models import ServiceArea, haversine_distance
         
         active_areas = ServiceArea.objects.filter(active=True)
@@ -119,29 +129,29 @@ class Booking(models.Model):
     def get_location_summary(self):
         """Get a summary of the booking location"""
         summary = {
-            'coordinates': f"{self.latitude}, {self.longitude}",
-            'address': self.service_address,
+            'coordinates': f"{self.latitude}, {self.longitude}" if self.latitude and self.longitude else None,
+            'address': self.service_address or 'Not specified',
             'in_service_area': self.is_in_service_area(),
         }
         
         if self.address:
             summary['saved_address'] = {
                 'id': self.address.id,
-                'label': self.address.label
+                'label': getattr(self.address, 'address_type', 'Address')
             }
             
         return summary
 
     def save(self, *args, **kwargs):
         """Override save to add location validation"""
-        # Validate service area coverage (optional - can be disabled)
-        if not self.is_in_service_area():
-            # Log warning but don't block save
+        # First save to get an ID
+        super().save(*args, **kwargs)
+        
+        # Then validate service area coverage (optional warning)
+        if self.latitude and self.longitude and not self.is_in_service_area():
             import logging
             logger = logging.getLogger(__name__)
             logger.warning(
                 f"Booking {self.id} created outside service area: "
                 f"{self.latitude}, {self.longitude}"
             )
-        
-        super().save(*args, **kwargs)

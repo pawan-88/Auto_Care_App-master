@@ -7,7 +7,7 @@ import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  final Address? address;
+  final AddressModel? address;
 
   const AddAddressScreen({Key? key, this.address}) : super(key: key);
 
@@ -16,6 +16,9 @@ class AddAddressScreen extends StatefulWidget {
 }
 
 class _AddAddressScreenState extends State<AddAddressScreen> {
+  double? _latitude;
+  double? _longitude;
+
   final _formKey = GlobalKey<FormState>();
   final _addressLine1Controller = TextEditingController();
   final _addressLine2Controller = TextEditingController();
@@ -40,6 +43,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       _pincodeController.text = widget.address!.pincode;
       _selectedType = widget.address!.addressType;
       _isDefault = widget.address!.isDefault;
+
+      _latitude = widget.address!.latitude;
+      _longitude = widget.address!.longitude;
     }
   }
 
@@ -67,36 +73,59 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       'city': _cityController.text.trim(),
       'state': _stateController.text.trim(),
       'pincode': _pincodeController.text.trim(),
+      'latitude': _latitude ?? 0.0, // Default to 0.0 if no location
+      'longitude': _longitude ?? 0.0, // Default to 0.0 if no location
       'is_default': _isDefault,
     };
 
-    Address? result;
-    if (widget.address != null) {
-      result = await ApiService.updateAddress(widget.address!.id!, addressData);
-    } else {
-      result = await ApiService.createAddress(addressData);
-    }
+    print('🔵 Saving address with data: $addressData');
 
-    setState(() => _isLoading = false);
+    AddressModel? result;
+    try {
+      if (widget.address != null) {
+        result = await ApiService.updateAddress(
+          widget.address!.id!,
+          addressData,
+        );
+      } else {
+        result = await ApiService.createAddress(addressData);
+      }
 
-    if (!mounted) return;
+      setState(() => _isLoading = false);
 
-    if (result != null) {
+      if (!mounted) return;
+
+      if (result != null) {
+        print('✅ Address saved successfully: ${result.id}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              widget.address != null
+                  ? 'Address updated successfully'
+                  : 'Address added successfully',
+            ),
+            backgroundColor: AppColors.success,
+          ),
+        );
+        Navigator.pop(context, true);
+      } else {
+        print('❌ Failed to save address - null result');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to save address. Please check all fields.'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } catch (e) {
+      print('❌ Exception while saving address: $e');
+      setState(() => _isLoading = false);
+
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            widget.address != null
-                ? 'Address updated successfully'
-                : 'Address added successfully',
-          ),
-          backgroundColor: AppColors.success,
-        ),
-      );
-      Navigator.pop(context, true);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to save address'),
+          content: Text('Error: ${e.toString()}'),
           backgroundColor: AppColors.error,
         ),
       );

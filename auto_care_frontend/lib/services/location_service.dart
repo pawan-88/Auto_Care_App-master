@@ -32,7 +32,7 @@ class LocationService {
   }
 
   // Fetch user addresses
-  static Future<List<Address>> fetchAddresses(String token) async {
+  static Future<List<AddressModel>> fetchAddresses(String token) async {
     final resp = await http.get(
       Uri.parse("${ApiConstants.baseUrl}/api/locations/addresses/"),
       headers: {
@@ -40,15 +40,36 @@ class LocationService {
         'Authorization': 'Bearer $token',
       },
     );
+
+    print(
+      '🔵 Fetching addresses from: ${ApiConstants.baseUrl}/api/locations/addresses/',
+    );
+    print('🔵 Address Response Status: ${resp.statusCode}');
+    print('🔵 Address Response Body: ${resp.body}');
+
     if (resp.statusCode == 200) {
-      final List<dynamic> arr = jsonDecode(resp.body);
-      return arr.map((e) => Address.fromJson(e)).toList();
+      final Map<String, dynamic> data = jsonDecode(resp.body);
+
+      // Handle paginated response
+      if (data.containsKey('results')) {
+        final List results = data['results'];
+        print('✅ Addresses parsed: ${results.length} addresses');
+        return results.map((e) => AddressModel.fromJson(e)).toList();
+      } else {
+        // Handle direct array response
+        final List arr = jsonDecode(resp.body);
+        return arr.map((e) => AddressModel.fromJson(e)).toList();
+      }
     }
+
     throw Exception("Failed to load addresses: ${resp.body}");
   }
 
   // Create address
-  static Future<Address> createAddress(String token, Address address) async {
+  static Future<AddressModel> createAddress(
+    String token,
+    AddressModel address,
+  ) async {
     final resp = await http.post(
       Uri.parse("${ApiConstants.baseUrl}/api/locations/addresses/"),
       headers: {
@@ -58,7 +79,7 @@ class LocationService {
       body: jsonEncode(address.toJson()),
     );
     if (resp.statusCode == 200 || resp.statusCode == 201) {
-      return Address.fromJson(jsonDecode(resp.body));
+      return AddressModel.fromJson(jsonDecode(resp.body));
     }
     throw Exception("Failed to create address: ${resp.body}");
   }
