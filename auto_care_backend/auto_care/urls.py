@@ -22,6 +22,7 @@ urlpatterns = [
     path('api/accounts/', include('apps.accounts.api.urls')),
     path("api/bookings/", include("apps.bookings.api.urls")),
     path('api/locations/', include('apps.locations.api.urls')),
+    path('api/providers/', include('apps.service_providers.api.urls')),
 
      # 🆕 API versioning (optional for future)
     # path('api/v1/accounts/', include('apps.accounts.api.urls')),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:geolocator/geolocator.dart'; // ✅ ADD THIS IMPORT
 import '../models/address.dart';
 import '../services/api_service.dart';
 import '../utils/constants.dart';
@@ -34,6 +35,11 @@ class _WashScreenState extends State<WashScreen> {
   final TextEditingController _notesController = TextEditingController();
 
   bool _isLoading = false;
+
+  // ✅ GPS LOCATION VARIABLES
+  Position? _currentPosition;
+  bool _isGettingLocation = false;
+  String _locationStatus = 'Tap to get location';
 
   @override
   void initState() {
@@ -142,36 +148,233 @@ class _WashScreenState extends State<WashScreen> {
     return total;
   }
 
-  Future<void> _confirmBooking() async {
-    setState(() => _isLoading = true);
+  // ✅ GET CURRENT GPS LOCATION
+  Future<void> _getCurrentLocation() async {
+    setState(() {
+      _isGettingLocation = true;
+      _locationStatus = 'Getting your location...';
+    });
 
-    final bookingData = {
-      'vehicle_type': _selectedVehicle,
-      'date': DateFormat('yyyy-MM-dd').format(_selectedDate!),
-      'time_slot': _selectedTimeSlot,
-      'notes': _notesController.text.trim(),
-    };
+    try {
+      print('📍 Requesting location...');
 
-    final response = await ApiService.createBooking(bookingData);
+      // Check if location services are enabled
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        setState(() {
+          _locationStatus = '⚠️ Location services disabled';
+          _isGettingLocation = false;
+        });
+        _showLocationDialog(
+          'Location Services Disabled',
+          'Please enable location services in your browser settings.',
+        );
+        return;
+      }
 
-    setState(() => _isLoading = false);
+      // Check location permission
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          setState(() {
+            _locationStatus = '⚠️ Permission denied';
+            _isGettingLocation = false;
+          });
+          _showLocationDialog(
+            'Location Permission Required',
+            'We need your location to assign the nearest service provider.',
+          );
+          return;
+        }
+      }
 
-    if (!mounted) return;
+      if (permission == LocationPermission.deniedForever) {
+        setState(() {
+          _locationStatus = '⚠️ Permission permanently denied';
+          _isGettingLocation = false;
+        });
+        _showLocationDialog(
+          'Location Permission Required',
+          'Please enable location in browser settings.',
+        );
+        return;
+      }
 
-    if (response.containsKey('error')) {
+      // Get current position
+      print('📍 Getting position...');
+      Position position =
+          await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high,
+          ).timeout(
+            Duration(seconds: 10),
+            onTimeout: () {
+              throw Exception('Location request timed out');
+            },
+          );
+
+      setState(() {
+        _currentPosition = position;
+        _locationStatus =
+            '✅ ${position.latitude.toStringAsFixed(4)}, ${position.longitude.toStringAsFixed(4)}';
+        _isGettingLocation = false;
+      });
+
+      print('✅ Location: ${position.latitude}, ${position.longitude}');
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(response['error']),
-          backgroundColor: AppColors.error,
+          content: Text('✅ Location detected successfully'),
+          backgroundColor: AppColors.success,
+          duration: Duration(seconds: 2),
         ),
       );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              BookingConfirmationScreen(bookingData: response),
+    } catch (e) {
+      print('❌ Error getting location: $e');
+      setState(() {
+        _locationStatus = '❌ Failed to get location';
+        _isGettingLocation = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Could not get location: $e'),
+          backgroundColor: AppColors.error,
+          action: SnackBarAction(
+            label: 'Retry',
+            textColor: Colors.white,
+            onPressed: _getCurrentLocation,
+          ),
         ),
+      );
+    }
+  }
+
+  void _showLocationDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _getCurrentLocation();
+            },
+            child: Text('Retry'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Continue Anyway'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ✅ UPDATED CONFIRM BOOKING WITH GPS
+  Future<void> _confirmBooking() async {
+    // Check if we have location
+    if (_currentPosition == null) {
+      final shouldContinue = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('No Location Detected'),
+          content: Text(
+            'We couldn\'t get your location. '
+            'Without location, provider assignment may be delayed.\n\n'
+            'Do you want to continue without location or try again?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, false);
+                _getCurrentLocation();
+              },
+              child: Text('Try Again'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.warning,
+              ),
+              child: Text('Continue Anyway'),
+            ),
+          ],
+        ),
+      );
+
+      if (shouldContinue != true) return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      print('\n📋 Creating booking...');
+
+      final bookingData = {
+        'vehicle_type': _selectedVehicle,
+        'date': DateFormat('yyyy-MM-dd').format(_selectedDate!),
+        'time_slot': _selectedTimeSlot,
+        'notes': _notesController.text.trim(),
+      };
+
+      // ✅ ADD GPS COORDINATES
+      if (_currentPosition != null) {
+        bookingData['latitude'] = _currentPosition!.latitude.toStringAsFixed(6);
+        bookingData['longitude'] = _currentPosition!.longitude.toStringAsFixed(
+          6,
+        );
+
+        print(
+          '📍 GPS included: ${_currentPosition!.latitude}, ${_currentPosition!.longitude}',
+        );
+      } else {
+        print('⚠️ No GPS coordinates - assignment may fail');
+      }
+
+      // Add address if selected
+      if (_selectedAddress != null) {
+        bookingData['service_address'] = _selectedAddress!.id.toString();
+        print('🏠 Address ID: ${_selectedAddress!.id}');
+      }
+
+      print('📤 Sending booking data...');
+
+      final response = await ApiService.createBooking(bookingData);
+
+      setState(() => _isLoading = false);
+
+      if (!mounted) return;
+
+      if (response.containsKey('error')) {
+        print('❌ Booking failed: ${response['error']}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response['error']),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      } else {
+        print('✅ Booking created successfully!');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                BookingConfirmationScreen(bookingData: response),
+          ),
+        );
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      print('❌ Exception: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e'), backgroundColor: AppColors.error),
       );
     }
   }
@@ -684,6 +887,10 @@ class _WashScreenState extends State<WashScreen> {
           ),
           const SizedBox(height: 24),
 
+          // ✅ LOCATION DETECTION CARD
+          _buildLocationCard(),
+          const SizedBox(height: 24),
+
           // Address Selection
           _buildSectionTitle('Service Location'),
           const SizedBox(height: 12),
@@ -800,230 +1007,127 @@ class _WashScreenState extends State<WashScreen> {
     );
   }
 
+  // ✅ NEW LOCATION CARD WIDGET
+  Widget _buildLocationCard() {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: _currentPosition != null ? Colors.green[50] : Colors.orange[50],
+        borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMedium),
+        border: Border.all(
+          color: _currentPosition != null ? Colors.green : Colors.orange,
+          width: 2,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.my_location,
+                color: _currentPosition != null ? Colors.green : Colors.orange,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  _locationStatus,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: _currentPosition != null
+                        ? Colors.green[900]
+                        : Colors.orange[900],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              if (_isGettingLocation)
+                const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              else
+                TextButton.icon(
+                  onPressed: _getCurrentLocation,
+                  icon: const Icon(Icons.gps_fixed, size: 18),
+                  label: const Text('Get Location'),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
+      style: GoogleFonts.poppins(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
         color: AppColors.textPrimary,
       ),
     );
   }
 
   Widget _buildDateSelector() {
-    return SizedBox(
-      height: 100,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 14, // Next 14 days
-        itemBuilder: (context, index) {
-          final date = DateTime.now().add(Duration(days: index));
-          final isSelected =
-              _selectedDate != null &&
-              _selectedDate!.day == date.day &&
-              _selectedDate!.month == date.month;
-
-          return InkWell(
-            onTap: () {
-              setState(() {
-                _selectedDate = date;
-              });
-            },
-            borderRadius: BorderRadius.circular(
-              AppDimensions.borderRadiusMedium,
-            ),
-            child: Container(
-              width: 70,
-              margin: const EdgeInsets.only(right: 12),
-              decoration: BoxDecoration(
-                color: isSelected ? AppColors.primaryColor : AppColors.white,
-                borderRadius: BorderRadius.circular(
-                  AppDimensions.borderRadiusMedium,
-                ),
-                border: Border.all(
-                  color: isSelected
-                      ? AppColors.primaryColor
-                      : AppColors.divider,
-                ),
-                boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color: AppColors.primaryColor.withOpacity(0.3),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        ),
-                      ]
-                    : [],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    DateFormat('EEE').format(date),
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: isSelected
-                          ? AppColors.white
-                          : AppColors.textSecondary,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    DateFormat('dd').format(date),
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: isSelected
-                          ? AppColors.white
-                          : AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    DateFormat('MMM').format(date),
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: isSelected
-                          ? AppColors.white
-                          : AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+    return Wrap(
+      spacing: 8,
+      children: List.generate(5, (index) {
+        final date = DateTime.now().add(Duration(days: index));
+        final isSelected =
+            _selectedDate != null &&
+            _selectedDate!.day == date.day &&
+            _selectedDate!.month == date.month;
+        return ChoiceChip(
+          label: Text(DateFormat('EEE, MMM d').format(date)),
+          selected: isSelected,
+          onSelected: (_) => setState(() => _selectedDate = date),
+          selectedColor: AppColors.primaryColor,
+          backgroundColor: AppColors.white,
+          labelStyle: TextStyle(
+            color: isSelected ? AppColors.white : AppColors.textPrimary,
+          ),
+        );
+      }),
     );
   }
 
   Widget _buildTimeSlotGrid() {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 2.5,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-      ),
-      itemCount: _timeSlots.length,
-      itemBuilder: (context, index) {
-        final timeSlot = _timeSlots[index];
-        final isSelected = _selectedTimeSlot == timeSlot;
-
-        return InkWell(
-          onTap: () {
-            setState(() {
-              _selectedTimeSlot = timeSlot;
-            });
-          },
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMedium),
-          child: Container(
-            decoration: BoxDecoration(
-              color: isSelected ? AppColors.primaryColor : AppColors.white,
-              borderRadius: BorderRadius.circular(
-                AppDimensions.borderRadiusMedium,
-              ),
-              border: Border.all(
-                color: isSelected ? AppColors.primaryColor : AppColors.divider,
-              ),
-            ),
-            child: Center(
-              child: Text(
-                timeSlot,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                  color: isSelected ? AppColors.white : AppColors.textPrimary,
-                ),
-              ),
-            ),
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: _timeSlots.map((slot) {
+        final isSelected = _selectedTimeSlot == slot;
+        return ChoiceChip(
+          label: Text(slot),
+          selected: isSelected,
+          onSelected: (_) => setState(() => _selectedTimeSlot = slot),
+          selectedColor: AppColors.primaryColor,
+          backgroundColor: AppColors.white,
+          labelStyle: TextStyle(
+            color: isSelected ? AppColors.white : AppColors.textPrimary,
           ),
         );
-      },
+      }).toList(),
     );
   }
 
   Widget _buildBottomBar() {
-    bool canProceed = false;
-
-    switch (_currentStep) {
-      case 0:
-        canProceed = _selectedVehicle != null;
-        break;
-      case 1:
-        canProceed = _selectedService != null;
-        break;
-      case 2:
-        canProceed =
-            _selectedDate != null &&
-            _selectedTimeSlot != null &&
-            _selectedAddress != null;
-        break;
-    }
-
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (_currentStep == 1 || _currentStep == 2) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Total Amount:',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  Text(
-                    '₹${_getTotalPrice()}',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-            ],
-            CustomButton(
-              text: _currentStep == 2 ? 'Confirm Booking' : 'Continue',
-              onPressed: canProceed
-                  ? () {
-                      if (_currentStep == 2) {
-                        _confirmBooking();
-                      } else {
-                        setState(() {
-                          _currentStep++;
-                        });
-                      }
-                    }
-                  : null,
-              isLoading: _isLoading,
-              icon: _currentStep == 2
-                  ? Icons.check_circle
-                  : Icons.arrow_forward,
-            ),
-          ],
-        ),
+      color: AppColors.white,
+      child: CustomButton(
+        text: _currentStep == 2 ? 'Confirm Booking' : 'Next',
+        isLoading: _isLoading,
+        onPressed: () {
+          if (_currentStep == 2) {
+            _confirmBooking();
+          } else if (_currentStep < 2) {
+            setState(() => _currentStep++);
+          }
+        },
       ),
     );
   }

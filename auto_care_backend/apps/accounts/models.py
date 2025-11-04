@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils import timezone
+from datetime import timedelta
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -20,53 +21,94 @@ class UserManager(BaseUserManager):
     def create_superuser(self, mobile_number, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('user_type', 'admin')  # 🆕 NEW
         return self.create_user(mobile_number, password, **extra_fields)
 
 # -------------------
 # Custom User Model
 # -------------------
 class User(AbstractBaseUser, PermissionsMixin):
+
+   # User type field
+    USER_TYPE_CHOICES = [
+        ('customer', 'Customer'),
+        ('provider', 'Provider'),
+        ('admin', 'Admin'),
+    ]
     mobile_number = models.CharField(max_length=15, unique=True)
     name = models.CharField(max_length=150, blank=True)
     email = models.EmailField(blank=True, null=True)
+
+   # User type
+    user_type = models.CharField(
+        max_length=20,
+        choices=USER_TYPE_CHOICES,
+        default='customer',
+        help_text="Type of user account"
+    )
+
     address = models.TextField(blank=True, null=True)
     vehicle = models.CharField(max_length=150, blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
+    is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'mobile_number'
     REQUIRED_FIELDS = []
-
     objects = UserManager()
 
     class Meta:
         indexes = [
             models.Index(fields=['mobile_number']),
+            models.Index(fields=['user_type']),
         ]
 
     def __str__(self):
-        return self.mobile_number
+        return f"{self.mobile_number} ({self.get_user_type_display()})"
+    
+    # Helper methods
+    def is_customer(self):
+        return self.user_type == 'customer'
+    
+    def is_provider(self):
+        return self.user_type == 'provider'
+    
+    def is_admin_user(self):
+        return self.user_type == 'admin'
 
 # -------------------
 # OTP Model
 # -------------------
 class OTP(models.Model):
     mobile_number = models.CharField(max_length=15)
-    otp = models.CharField(max_length=6)
-    created_at = models.DateTimeField(default=timezone.now)
+    otp_code = models.CharField(max_length=6)  # ✅ Field name is otp_code
     is_verified = models.BooleanField(default=False)
-    attempts = models.IntegerField(default=0)
-
+    attempts = models.IntegerField(default=0)  # ✅ Make sure this exists
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField(null=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.pk and not self.expires_at:
+            self.expires_at = timezone.now() + timedelta(minutes=10)
+        super().save(*args, **kwargs)
+    
+    def is_valid(self):
+        if self.is_verified:
+            return False
+        if self.expires_at:
+            return timezone.now() < self.expires_at
+        return False
+    
     class Meta:
-        indexes = [
-            models.Index(fields=['mobile_number', 'created_at']),
-            models.Index(fields=['mobile_number', 'is_verified']),
-        ]
-
+        ordering = ['-created_at']
+        verbose_name = 'OTP'
+        verbose_name_plural = 'OTPs'
+    
     def __str__(self):
-        return f"{self.mobile_number} - {self.otp} ({'Verified' if self.is_verified else 'Pending'})"
-
+        status = 'Verified' if self.is_verified else 'Pending'
+        return f"{self.mobile_number} - {self.otp_code} ({status})"
 
 # -------------------
 # Address Model

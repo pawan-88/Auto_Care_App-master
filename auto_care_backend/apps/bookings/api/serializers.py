@@ -7,31 +7,35 @@ import logging
 logger = logging.getLogger(__name__)
 
 class BookingSerializer(serializers.ModelSerializer):
-    """Clean booking serializer with proper validation"""
-    
-    # Read-only fields for response
+    """Serializer for both customer and provider booking data."""
+
     user_name = serializers.CharField(source='user.name', read_only=True)
     user_mobile = serializers.CharField(source='user.mobile_number', read_only=True)
-    
-    # Location summary for response
-    location_summary = serializers.SerializerMethodField(read_only=True)
-    
-    # Address details if booking uses saved address
-    address_label = serializers.SerializerMethodField(read_only=True)
+    provider_name = serializers.CharField(source='provider.full_name', read_only=True)
+    provider_id = serializers.CharField(source='provider.employee_id', read_only=True)
+    service_address = serializers.CharField(source='address.address_line1', read_only=True, default=None)
 
     class Meta:
         model = Booking
         fields = [
-            # Core fields
-            "id", "vehicle_type", "date", "time_slot", "status", "created_at", "notes",
-            "user_name", "user_mobile",
-            
-            # Location fields (all optional)
-            "latitude", "longitude", "service_address", "address",
-            "location_summary", "address_label"
+            "id",
+            "vehicle_type",
+            "date",
+            "time_slot",
+            "status",
+            "created_at",
+            "notes",
+            "user_name",
+            "user_mobile",
+            "provider_name",
+            "provider_id",
+            "service_address",
         ]
-        read_only_fields = ["id", "status", "created_at", "user_name", "user_mobile", 
-                           "location_summary", "address_label"]
+        read_only_fields = [
+            "id", "status", "created_at", "user_name", "user_mobile",
+            "provider_name", "provider_id", "service_address"
+        ]
+
 
     def get_location_summary(self, obj):
         """Return location summary for frontend display"""

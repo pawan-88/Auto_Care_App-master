@@ -1,0 +1,57 @@
+name: auto_care_provider
+description: "AutoCare Service Provider App"
+publish_to: 'none' # Prevent accidental publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_local_notifications: ^17.2.2
+
+  url_launcher: ^6.2.4
+
+  # State management
+  provider: ^6.0.5
+
+  # HTTP & API handling
+  http: ^1.2.0
+  dio: ^5.9.0
+
+  # Location & Maps
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  google_maps_flutter: ^2.2.0
+
+  # Local storage
+  shared_preferences: ^2.1.0
+  flutter_secure_storage: ^9.0.0
+
+  # UI & Fonts
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.0
+  shimmer: ^3.0.0
+  smooth_page_indicator: ^1.1.0
+
+  # Date & Time
+  intl: ^0.19.0
+  table_calendar: ^3.0.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Add assets if available later
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/

@@ -8,7 +8,7 @@ class ApiConstants {
 
   //static const String baseUrl = 'http://10.240.95.214:8000'; // Android Emulator
   // static const String baseUrl = 'http://127.0.0.1:8000'; // iOS Simulator
-  static const String baseUrl = 'http://10.219.56.214:8000'; // Real Device
+  static const String baseUrl = 'http://10.40.83.214:8000'; // Real Device
 
   // API Endpoints
   static const String sendOtp = '$baseUrl/api/accounts/send-otp/';

@@ -11,8 +11,6 @@ from apps.accounts.utils import generate_otp, normalize_mobile_number, validate_
 import logging
 from apps.locations.models import Address
 from apps.locations.api.serializers import AddressSerializer, ServiceAreaSerializer
-# from apps.accounts.models import Address
-# from serializers import AddressSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -57,21 +55,31 @@ class SendOTPView(APIView):
         OTP.objects.filter(mobile_number=mobile_number, is_verified=False).delete()
         
         # Create or get user
-        user, created = User.objects.get_or_create(mobile_number=mobile_number)
+        user, created = User.objects.get_or_create(
+            mobile_number=mobile_number,
+            defaults={'name': 'Customer', 'user_type': 'customer'}
+        )
         if created:
-            logger.info(f"New user created: {user.mobile_number}")
+            logger.info(f"New customer user created: {user.mobile_number}")
         
         # Generate secure OTP
         otp_code = generate_otp()
-        otp_obj = OTP.objects.create(mobile_number=mobile_number, otp=otp_code)
         
-        # TODO: Integrate real SMS sending here (Twilio/MSG91)
-        logger.info(f"OTP generated for {mobile_number}: {otp_code}")  # Remove in production
-        print(f"🔐 OTP for {mobile_number} is {otp_code}")  # For development only
+        # ✅ FIXED: Use otp_code instead of otp
+        otp_obj = OTP.objects.create(mobile_number=mobile_number, otp_code=otp_code)
+        
+        # Print OTP clearly in console
+        print("\n" + "="*60)
+        print(f"🔐 CUSTOMER OTP FOR: {mobile_number}")
+        print(f"📱 OTP CODE: {otp_code}")
+        print("="*60 + "\n")
+        
+        logger.info(f"OTP generated for customer {mobile_number}")
         
         return Response({
             "message": "OTP sent successfully",
-            "mobile_number": mobile_number  # Send back normalized number
+            "mobile_number": mobile_number,
+            "otp": otp_code  # ⚠️ Remove in production
         })
 
 
@@ -86,6 +94,12 @@ class VerifyOTPView(APIView):
         mobile_number_raw = request.data.get("mobile_number", "").strip()
         otp_input = request.data.get("otp", "").strip()
         
+        print("\n" + "="*60)
+        print(f"🔍 CUSTOMER OTP VERIFICATION")
+        print(f"📱 Mobile: {mobile_number_raw}")
+        print(f"🔑 OTP: {otp_input}")
+        print("="*60 + "\n")
+        
         # Normalize mobile number
         mobile_number = normalize_mobile_number(mobile_number_raw)
         
@@ -93,6 +107,7 @@ class VerifyOTPView(APIView):
         is_valid, error_message = validate_mobile_number(mobile_number)
         if not is_valid:
             logger.warning(f"Verify OTP: Invalid mobile format: {mobile_number_raw}")
+            print(f"❌ Invalid mobile format")
             return Response(
                 {"error": error_message},
                 status=status.HTTP_400_BAD_REQUEST
@@ -101,76 +116,104 @@ class VerifyOTPView(APIView):
         # Validate OTP format
         if not otp_input or not otp_input.isdigit() or len(otp_input) != 6:
             logger.warning(f"Invalid OTP format from {mobile_number}")
+            print(f"❌ Invalid OTP format")
             return Response(
                 {"error": "Invalid OTP format. Must be a 6-digit number."},
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Fetch latest unverified OTP
+        # ✅ FIXED: Use otp_code instead of otp
         otp_obj = OTP.objects.filter(
             mobile_number=mobile_number, 
+            otp_code=otp_input,  # ✅ Changed from otp to otp_code
             is_verified=False
         ).order_by('-created_at').first()
         
         if not otp_obj:
             logger.warning(f"No valid OTP found for {mobile_number}")
+            print(f"❌ OTP not found in database")
+            
+            # Debug: Show all OTPs for this number
+            all_otps = OTP.objects.filter(mobile_number=mobile_number).order_by('-created_at')
+            print(f"📋 All OTPs for {mobile_number}:")
+            for otp in all_otps:
+                print(f"  - {otp.otp_code} (Verified: {otp.is_verified}, Created: {otp.created_at})")
+            
             return Response(
                 {"error": "Invalid or expired OTP. Please request a new one."},
                 status=status.HTTP_400_BAD_REQUEST
             )
         
+        print(f"✅ OTP found in database")
+        print(f"   Created: {otp_obj.created_at}")
+        print(f"   Attempts: {otp_obj.attempts}")
+        
         # Check expiry (5 minutes)
         if timezone.now() - otp_obj.created_at > timedelta(minutes=5):
             otp_obj.delete()
             logger.info(f"Expired OTP deleted for {mobile_number}")
+            print(f"❌ OTP expired")
             return Response(
                 {"error": "OTP expired. Please request a new one."},
                 status=status.HTTP_400_BAD_REQUEST
             )
         
+        print(f"✅ OTP is not expired")
+        
         # Check max attempts (brute force protection)
         if otp_obj.attempts >= self.MAX_OTP_ATTEMPTS:
             otp_obj.delete()
             logger.warning(f"Max OTP attempts exceeded for {mobile_number}")
+            print(f"❌ Max attempts exceeded")
             return Response(
                 {"error": "Too many failed attempts. Please request a new OTP."},
                 status=status.HTTP_429_TOO_MANY_REQUESTS
             )
         
-        # Verify OTP
-        if otp_obj.otp != otp_input:
-            otp_obj.attempts += 1
-            otp_obj.save()
-            remaining = self.MAX_OTP_ATTEMPTS - otp_obj.attempts
-            logger.warning(f"Invalid OTP attempt for {mobile_number}. Remaining: {remaining}")
-            return Response(
-                {"error": f"Invalid OTP. {remaining} attempt(s) remaining."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
         # OTP is valid - mark as verified
         otp_obj.is_verified = True
         otp_obj.save()
+        print(f"✅ OTP marked as verified")
         
         # Get or create user
-        user, created = User.objects.get_or_create(mobile_number=mobile_number)
+        user, created = User.objects.get_or_create(
+            mobile_number=mobile_number,
+            defaults={'name': 'Customer', 'user_type': 'customer'}
+        )
+        
+        if created:
+            print(f"✅ New customer user created")
+        else:
+            print(f"✅ Existing user found")
+        
+        # Mark user as verified
+        if not user.is_verified:
+            user.is_verified = True
+            user.save(update_fields=['is_verified'])
+            print(f"✅ User marked as verified")
         
         # Delete verified OTP
         otp_obj.delete()
+        print(f"✅ OTP deleted after verification")
         
         # Generate JWT tokens
         refresh = RefreshToken.for_user(user)
         
-        logger.info(f"Successful login for {mobile_number} (New user: {created})")
+        logger.info(f"Successful login for customer {mobile_number} (New user: {created})")
+        print(f"✅ JWT tokens generated")
+        print("="*60 + "\n")
         
         return Response({
             "refresh": str(refresh),
             "access": str(refresh.access_token),
             "is_new_user": created,
             "user": {
+                "id": user.id,
                 "mobile_number": user.mobile_number,
                 "name": user.name,
-                "email": user.email
+                "email": user.email,
+                "user_type": user.user_type,
+                "is_verified": user.is_verified
             }
         })
 
@@ -198,9 +241,9 @@ class UserProfileView(APIView):
     def patch(self, request):
         """Allow partial updates via PATCH"""
         return self.put(request)
-    
 
-    # -------------------
+
+# -------------------
 # Address List & Create API
 # -------------------
 class AddressListCreateView(APIView):

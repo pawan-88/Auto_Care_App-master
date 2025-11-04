@@ -7,7 +7,10 @@ from ..models import Booking
 from .serializers import BookingSerializer
 from apps.locations.models import ServiceArea
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
+from django.utils import timezone
+from apps.bookings.services.assignment_service import assign_provider_to_booking
+
 
 logger = logging.getLogger(__name__)
 
@@ -24,11 +27,20 @@ class BookingListCreateView(APIView):
         return Response(serializer.data if serializer.data else [], status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        """Create new booking"""
+        """Create new booking and auto-assign provider"""
         serializer = BookingSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             booking = serializer.save(user=request.user)
             logger.info(f"Booking created: {booking.id} for user {request.user.mobile_number}")
+            
+            # ✅ AUTO-ASSIGN PROVIDER
+            assignment = assign_provider_to_booking(booking)
+            
+            if assignment:
+                logger.info(f"Provider auto-assigned to booking {booking.id}")
+            else:
+                logger.warning(f"No provider available for booking {booking.id}")
+            
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             logger.warning(f"Booking creation failed for {request.user.mobile_number}: {serializer.errors}")

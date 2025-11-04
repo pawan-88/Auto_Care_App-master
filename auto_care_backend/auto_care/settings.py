@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "apps.payments.apps.PaymentsConfig",
     "apps.notifications.apps.NotificationsConfig",
     "apps.locations.apps.LocationsConfig",
+    "apps.service_providers.apps.ServiceProvidersConfig",
 ]
 
 MIDDLEWARE = [

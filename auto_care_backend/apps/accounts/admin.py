@@ -28,15 +28,23 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(OTP)
 class OTPAdmin(admin.ModelAdmin):
-    list_display = ['mobile_number', 'otp', 'is_verified', 'attempts', 'created_at']
+    list_display = ['mobile_number', 'get_otp', 'is_verified', 'get_attempts', 'created_at']
     list_filter = ['is_verified', 'created_at']
     search_fields = ['mobile_number', 'otp']
     ordering = ['-created_at']
     readonly_fields = ['created_at']
-    
+
     def has_add_permission(self, request):
         # Prevent manual OTP creation from admin
         return False
+
+    def get_otp(self, obj):
+        return getattr(obj, 'otp', 'N/A')
+    get_otp.short_description = 'OTP'
+
+    def get_attempts(self, obj):
+        return getattr(obj, 'attempts', 'N/A')
+    get_attempts.short_description = 'Attempts'
     
 
     # @admin.register(Address)
